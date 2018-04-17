@@ -20,12 +20,34 @@ namespace NicoV2.IO
         /// <summary>
         /// 設定ﾌｧｲﾙのﾊﾟｽ
         /// </summary>
-        public const string AppConfig = @".\lib\app-config.ini";
+        public const string AppConfigPath = @".\lib\app-config.ini";
+
+        /// <summary>
+        /// ﾒﾆｭｰ構成のﾊﾟｽ
+        /// </summary>
+        public const string MenuModelPath = @".\lib\menu-model.xml";
 
         /// <summary>
         /// 設定ﾌｧｲﾙのﾃﾞﾌｫﾙﾄｾｸｼｮﾝ
         /// </summary>
         public const string AppConfigDefaultSection = "NicoV2";
+
+        /// <summary>
+        /// ｴﾝｺｰﾃﾞｨﾝｸﾞ
+        /// </summary>
+        public static Encoding Encoding {
+            get
+            {
+                _Encoding = _Encoding ?? Encoding.GetEncoding(Variables.Encoding);
+                return _Encoding;
+            }
+            private set
+            {
+                _Encoding = value;
+            }
+            
+        }
+        private static Encoding _Encoding;
 
         /**************************************************
          * HTTPS関連の定数
