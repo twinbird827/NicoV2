@@ -25,7 +25,7 @@ namespace NicoV2.IO
         /// <summary>
         /// ﾒﾆｭｰ構成のﾊﾟｽ
         /// </summary>
-        public const string MenuModelPath = @".\lib\menu-model.xml";
+        public const string MenuModelPath = @".\lib\menu-model.json";
 
         /// <summary>
         /// 設定ﾌｧｲﾙのﾃﾞﾌｫﾙﾄｾｸｼｮﾝ
@@ -110,7 +110,7 @@ namespace NicoV2.IO
 
         public const string Context = "kaz.server-on.net/NicoV2";
 
-        public const string Url = "http://api.search.nicovideo.jp/api/v2/video/contents/search?q={0}&targets={1}&fields={2}&_sort={3}&_offset={4}&_limit={5}&_context={6}";
+        public const string SearchByWordUrl = "http://api.search.nicovideo.jp/api/v2/video/contents/search?q={0}&targets={1}&fields={2}&_sort={3}&_offset={4}&_limit={5}&_context={6}";
 
     }
 }

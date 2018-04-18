@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace NicoV2.Mvvm.Model
 {
-    public class LoginModel : BindableBase
+    public class LoginModel : HttpModel
     {
         /// <summary>
         /// ｼﾝｸﾞﾙﾄﾝﾊﾟﾀｰﾝのため、ﾌﾟﾗｲﾍﾞｰﾄｺﾝｽﾄﾗｸﾀ。
         /// </summary>
         private LoginModel()
         {
-
+            this.Method = "POST";
+            this.ContentType = "application/x-www-form-urlencoded";
         }
 
         /// <summary>
@@ -93,8 +94,8 @@ namespace NicoV2.Mvvm.Model
             try
             {
                 // ﾘｸｴｽﾄを取得する。
-                var req = GetRequest(mail, password);
-                var res = (HttpWebResponse)req.GetResponse();
+                var req = GetRequest(Constants.LoginUrl, HttpUtil.ToLoginParameter(mail, password)); // GetRequest(mail, password);
+                var res = GetResponse(req, false);
 
                 // ﾘｸｴｽﾄからｸｯｷｰ取得
                 CookieCollection cookies = req.CookieContainer.GetCookies(req.RequestUri);
@@ -129,43 +130,43 @@ namespace NicoV2.Mvvm.Model
 
         }
 
-        /// <summary>
-        /// 指定したUrlとﾊﾟﾗﾒｰﾀでHTTPﾘｸｴｽﾄを取得します。
-        /// </summary>
-        /// <param name="url">URL</param>
-        /// <param name="parameter">ﾊﾟﾗﾒｰﾀ</param>
-        /// <returns><code>HttpWebRequest</code></returns>
-        private HttpWebRequest GetRequest(string mail, string password)
-        {
-            string url = Constants.LoginUrl;
-            string parameter = HttpUtil.ToLoginParameter(mail, password);
+        ///// <summary>
+        ///// 指定したUrlとﾊﾟﾗﾒｰﾀでHTTPﾘｸｴｽﾄを取得します。
+        ///// </summary>
+        ///// <param name="url">URL</param>
+        ///// <param name="parameter">ﾊﾟﾗﾒｰﾀ</param>
+        ///// <returns><code>HttpWebRequest</code></returns>
+        //private HttpWebRequest GetRequest(string mail, string password)
+        //{
+        //    string url = Constants.LoginUrl;
+        //    string parameter = HttpUtil.ToLoginParameter(mail, password);
 
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
+        //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+        //    req.Method = "POST";
+        //    req.ContentType = "application/x-www-form-urlencoded";
 
-            req.Timeout = Constants.Timeout;
-            req.ReadWriteTimeout = Constants.Timeout;
-            req.UserAgent = Constants.UserAgent;
-            req.Referer = Constants.Referer;
+        //    req.Timeout = Constants.Timeout;
+        //    req.ReadWriteTimeout = Constants.Timeout;
+        //    req.UserAgent = Constants.UserAgent;
+        //    req.Referer = Constants.Referer;
 
-            // ﾛｸﾞｲﾝ情報を持つｸｯｷｰをｺﾝﾃﾅに追加する。
-            req.CookieContainer = new CookieContainer();
-            req.CookieContainer.Add(Cookie.GetCookies(req.RequestUri));
+        //    // ﾛｸﾞｲﾝ情報を持つｸｯｷｰをｺﾝﾃﾅに追加する。
+        //    req.CookieContainer = new CookieContainer();
+        //    req.CookieContainer.Add(Cookie.GetCookies(req.RequestUri));
 
-            // ﾊﾟﾗﾒｰﾀが存在する場合、ｽﾄﾘｰﾑに追記する。
-            if (!string.IsNullOrWhiteSpace(parameter))
-            {
-                byte[] bytes = Encoding.ASCII.GetBytes(parameter);
-                req.ContentLength = bytes.LongLength;
-                using (Stream stream = req.GetRequestStream())
-                {
-                    stream.Write(bytes, 0, (int)bytes.LongLength);
-                }
-            }
+        //    // ﾊﾟﾗﾒｰﾀが存在する場合、ｽﾄﾘｰﾑに追記する。
+        //    if (!string.IsNullOrWhiteSpace(parameter))
+        //    {
+        //        byte[] bytes = Encoding.ASCII.GetBytes(parameter);
+        //        req.ContentLength = bytes.LongLength;
+        //        using (Stream stream = req.GetRequestStream())
+        //        {
+        //            stream.Write(bytes, 0, (int)bytes.LongLength);
+        //        }
+        //    }
 
-            return req;
-        }
+        //    return req;
+        //}
 
         /// <summary>
         /// ﾚｽﾎﾟﾝｽを用いてﾛｸﾞｲﾝ処理を実行します。

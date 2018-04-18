@@ -21,7 +21,7 @@ namespace NicoV2.Mvvm.Model
                 if (_Instance == null)
                 {
                     // ﾓﾃﾞﾙを設定ﾌｧｲﾙから取得する。取得できなかった場合はﾃﾞﾌｫﾙﾄﾒﾆｭｰとする。
-                    _Instance = XmlUtil.ReadXml<MenuModel>(Constants.MenuModelPath) ?? CreateDefault();
+                    _Instance = JsonUtil.Deserialize<MenuModel>(Constants.MenuModelPath) ?? CreateDefault();
                 }
                 return _Instance;
             }
@@ -64,6 +64,10 @@ namespace NicoV2.Mvvm.Model
             model.MenuItems.Add(new MenuItemModel("TEST5", MenuItemType.SearchByMylist));
             model.MenuItems.Add(new MenuItemModel("TEST6", MenuItemType.MylistOfMe));
             model.MenuItems.Add(new MenuItemModel("TEST7", MenuItemType.Setting));
+
+            model.Parameters.Add("key1", "value1");
+            model.Parameters.Add("key2", "value2");
+            model.Parameters.Add("key3", "value3");
             return model;
         }
 
@@ -91,7 +95,7 @@ namespace NicoV2.Mvvm.Model
             base.OnDisposing();
 
             // ｲﾝｽﾀﾝｽのﾃﾞｰﾀを保存する。
-            XmlUtil.SaveXml(Constants.MenuModelPath, this);
+            JsonUtil.Serialize(Constants.MenuModelPath, this);
         }
 
         protected override void OnDisposed()

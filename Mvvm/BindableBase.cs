@@ -54,12 +54,35 @@ namespace NicoV2.Mvvm
         #region IDisposable Support
         private bool disposedValue = false; // 重複する呼び出しを検出するには
 
+        private bool IsDisposed { get { return disposedValue; } }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
+                    var disposables = this.GetType().GetProperties()
+                        .Select(p => p.GetValue(this, null))
+                        .Where(o => o != null && !this.Equals(o))
+                        .OfType<BindableBase>()
+                        .ToArray();
+
+                    foreach (var d in disposables)
+                    {
+                        try
+                        {
+                            if (!d.IsDisposed)
+                            {
+                                d.Dispose();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                    }
+
                     // TODO: マネージ状態を破棄します (マネージ オブジェクト)。
                     OnDisposing();
                 }

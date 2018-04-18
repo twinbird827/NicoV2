@@ -25,11 +25,20 @@ namespace NicoV2.Mvvm.ViewModel
         public MainWindowViewModel()
         {
             // ﾒﾆｭｰ構成を作成
-            Menu = new MenuViewModel();
+            Menu = new MenuViewModel(this);
 
             // TODO 初期起動時のﾜｰｸｽﾍﾟｰｽを決定
             // TODO 前回起動時の状態を保持する？
             Current = null;
+        }
+
+        protected override void OnDisposing()
+        {
+            base.OnDisposing();
+        }
+        protected override void OnDisposed()
+        {
+            base.OnDisposed();
         }
     }
 }

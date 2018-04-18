@@ -11,10 +11,12 @@ namespace NicoV2.Mvvm.ViewModel
 {
     public class MenuViewModel : BindableBase
     {
+        private MainWindowViewModel MainWindow { get; set; }
+
         /// <summary>
         /// ﾒﾆｭｰ構成のｿｰｽとなるﾓﾃﾞﾙを設定、または取得します。
         /// </summary>
-        private MenuModel Source { get; set; }
+        public MenuModel Source { get; private set; }
 
         /// <summary>
         /// ﾒﾆｭｰﾂﾘｰﾋﾞｭｰ構成
@@ -29,9 +31,10 @@ namespace NicoV2.Mvvm.ViewModel
         /// <summary>
         /// ｺﾝｽﾄﾗｸﾀ
         /// </summary>
-        public MenuViewModel()
+        public MenuViewModel(MainWindowViewModel mainWindow)
         {
             Source = MenuModel.Instance;
+            MainWindow = mainWindow;
 
             MenuItems = Source.MenuItems.ToSyncedSynchronizationContextCollection(
                 model => new MenuItemViewModel(this, null, model),
@@ -39,5 +42,9 @@ namespace NicoV2.Mvvm.ViewModel
             );
         }
 
+        protected override void OnDisposing()
+        {
+            base.OnDisposing();
+        }
     }
 }

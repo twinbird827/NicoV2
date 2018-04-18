@@ -44,6 +44,11 @@ namespace NicoV2.Mvvm.Model
         private MenuItemType _Type;
 
         /// <summary>
+        /// GUID
+        /// </summary>
+        public string Guid { get; private set; } = System.Guid.NewGuid().ToString();
+
+        /// <summary>
         /// 子ﾒﾆｭｰ
         /// </summary>
         public ObservableSynchronizedCollection<MenuItemModel> Children
