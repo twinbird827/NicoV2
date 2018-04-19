@@ -79,8 +79,8 @@ namespace NicoV2.Mvvm.ViewModel
             this.Source = source;
 
             // TODO NameとTypeは設定必要？
-            Name = Source.Name;
-            Type = Source.Type;
+            //Name = Source.Name;
+            //Type = Source.Type;
             Children = source.Children.ToSyncedSynchronizationContextCollection(
                 m => new MenuItemViewModel(menu, this, m),
                 SynchronizationContext.Current

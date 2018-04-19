@@ -77,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Mvvm\View\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Mvvm\View\TreeViewItemResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,7 +114,13 @@
     <Compile Include="Mvvm\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MenuItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MenuViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\RelayCommand.cs" />
+    <Compile Include="Mvvm\ViewModel\SettingViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\WorkSpaceViewModel.cs" />
+    <Compile Include="Mvvm\View\PasswordBoxHelper.cs" />
+    <Compile Include="Mvvm\View\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mvvm\View\ViewModelCleanupBehavior.cs" />
     <Compile Include="Nuget\DynamicJson.cs" />
     <Compile Include="Mvvm\View\MainWindow.xaml.cs">
@@ -133,7 +143,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />

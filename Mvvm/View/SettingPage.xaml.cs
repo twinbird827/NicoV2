@@ -1,7 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +16,11 @@ using System.Windows.Shapes;
 namespace NicoV2.Mvvm.View
 {
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// SettingPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class SettingPage : UserControl
     {
-        public MainWindow()
+        public SettingPage()
         {
             InitializeComponent();
         }

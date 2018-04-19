@@ -39,6 +39,10 @@
                 <ResourceDictionary Source="./TreeViewItemResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <DataTemplate DataType="{x:Type vm:SettingViewModel}">
+                <local:SettingPage />
+            </DataTemplate>
+
         </ResourceDictionary>
 
     </Window.Resources>

@@ -41,10 +41,5 @@ namespace NicoV2.Mvvm.ViewModel
                 SynchronizationContext.Current
             );
         }
-
-        protected override void OnDisposing()
-        {
-            base.OnDisposing();
-        }
     }
 }

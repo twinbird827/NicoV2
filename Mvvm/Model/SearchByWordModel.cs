@@ -53,6 +53,9 @@ namespace NicoV2.Mvvm.Model
         }
         private int _Offset = 0;
 
+        /// <summary>
+        /// ｿｰﾄ順
+        /// </summary>
         public string OrderBy
         {
             get { return _OrderBy; }

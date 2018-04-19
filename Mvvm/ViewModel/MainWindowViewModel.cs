@@ -29,7 +29,7 @@ namespace NicoV2.Mvvm.ViewModel
 
             // TODO 初期起動時のﾜｰｸｽﾍﾟｰｽを決定
             // TODO 前回起動時の状態を保持する？
-            Current = null;
+            Current = new SettingViewModel();
         }
 
         protected override void OnDisposing()
