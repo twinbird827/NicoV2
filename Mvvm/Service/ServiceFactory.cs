@@ -8,7 +8,7 @@ namespace NicoV2.Mvvm.Service
 {
     public class ServiceFactory
     {
-        public static IMessageService MessageService;
+        public static IMessageService MessageService { get; set; } = new ConsoleMessageService();
 
     }
 }

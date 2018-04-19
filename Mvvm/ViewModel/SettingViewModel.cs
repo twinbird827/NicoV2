@@ -32,11 +32,12 @@ namespace NicoV2.Mvvm.ViewModel
             get { return _LoginCommand = _LoginCommand ?? new RelayCommand(
                 _ =>
                 {
-                    //// ﾛｸﾞｲﾝ実行
-                    //this.LoginSource.Login(MailAddress, Password);
-                    Console.WriteLine("mail: {0}, pass: {1}", MailAddress, Password);
-                    Variables.MailAddress = MailAddress;
-                    Variables.Password = Password;
+                    // ﾛｸﾞｲﾝ実行
+                    this.LoginSource.Login(MailAddress, Password);
+                    Console.WriteLine("{0}", this.LoginSource.IsLogin);
+                    //Console.WriteLine("mail: {0}, pass: {1}", MailAddress, Password);
+                    //Variables.MailAddress = MailAddress;
+                    //Variables.Password = Password;
                 },
                 _ => {
                     return

@@ -175,7 +175,8 @@ namespace NicoV2.Mvvm.Model
         /// <returns>ﾛｸﾞｲﾝ成功：true / 失敗：false</returns>
         private bool LoginWithResponse(string expression)
         {
-            if (expression.Contains("ログイン情報が間違っています"))
+            ServiceFactory.MessageService.Debug(expression);
+            if (expression.Contains("メールアドレスまたはパスワードが間違っています"))
             {
                 ServiceFactory.MessageService.Error("入力されたログイン情報が間違っています。");
             }

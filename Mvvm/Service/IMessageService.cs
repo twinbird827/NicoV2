@@ -20,5 +20,11 @@ namespace NicoV2.Mvvm.Service
         /// <param name="message">ﾒｯｾｰｼﾞ</param>
         void Info(string message);
 
+        /// <summary>
+        /// ﾃﾞﾊﾞｯｸﾞﾒｯｾｰｼﾞ処理します。
+        /// </summary>
+        /// <param name="message">ﾒｯｾｰｼﾞ</param>
+        void Debug(string message);
+
     }
 }

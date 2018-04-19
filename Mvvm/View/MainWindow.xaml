@@ -7,8 +7,8 @@
         mc:Ignorable="d"
 
         xmlns:vm="clr-namespace:NicoV2.Mvvm.ViewModel"
-                      
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
