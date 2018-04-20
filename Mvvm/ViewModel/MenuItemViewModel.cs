@@ -51,8 +51,12 @@ namespace NicoV2.Mvvm.ViewModel
         /// </summary>
         public WorkSpaceViewModel WorkSpace
         {
-            get { return _WorkSpace; }
-            set { SetProperty(ref _WorkSpace, value); }
+            //get { return _WorkSpace; }
+            //set { SetProperty(ref _WorkSpace, value); }
+            get
+            {
+                return _WorkSpace = _WorkSpace ?? CreateWorkSpaceViewModel();
+            }
         }
         private WorkSpaceViewModel _WorkSpace;
 
@@ -87,8 +91,23 @@ namespace NicoV2.Mvvm.ViewModel
             );
         }
 
+        private WorkSpaceViewModel CreateWorkSpaceViewModel()
+        {
+            switch (Type)
+            {
+                case MenuItemType.Setting:
+                    return new SettingViewModel();
+                default:
+                    return null;
+            }
+        }
+
         #region IDisposable Support
 
+        public void Test1()
+        {
+            Console.WriteLine(Name);
+        }
         protected override void OnDisposing()
         {
             base.OnDisposing();

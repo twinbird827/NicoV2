@@ -31,13 +31,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -49,7 +49,7 @@
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -88,11 +88,14 @@
                 local:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay}" />
 
             <!-- 0/3 - ﾛｸﾞｲﾝ -->
-            <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Width="200" Margin="3"
+            <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Width="150" Margin="3"
                 Content="{x:Static properties:Resources.VW01003}" 
                 Command="{Binding LoginCommand}">
             </Button>
 
         </Grid>
+        <local:PagingUserControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+
+        </local:PagingUserControl>
     </Grid>
 </UserControl>
