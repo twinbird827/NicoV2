@@ -21,7 +21,7 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
-
+             x:Name="settingPage"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- 本WindowのViewModel -->
@@ -94,7 +94,12 @@
             </Button>
 
         </Grid>
-        <local:PagingUserControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+        <local:PagingUserControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" DataLength="100" PageLength="5" Current="5" Limit="5">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CurrentChanged">
+                    <local:CallMethodAction TargetObject="{Binding DataContext, ElementName=settingPage}" MethodName="Test1" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
         </local:PagingUserControl>
     </Grid>

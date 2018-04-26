@@ -8,12 +8,9 @@ using System.Windows.Input;
 
 namespace NicoV2.Mvvm.ViewModel
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : RelayCommand<object>
     {
         #region Fields
-
-        readonly Action<object> _execute;
-        readonly Predicate<object> _canExecute;
 
         #endregion // Fields
 
@@ -25,6 +22,30 @@ namespace NicoV2.Mvvm.ViewModel
         }
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+            : base(execute, canExecute)
+        {
+        }
+        #endregion // Constructors
+
+    }
+
+    public class RelayCommand<T> : ICommand
+    {
+        #region Fields
+
+        readonly Action<T> _execute;
+        readonly Predicate<T> _canExecute;
+
+        #endregion // Fields
+
+        #region Constructors
+
+        public RelayCommand(Action<T> execute)
+        : this(execute, null)
+        {
+        }
+
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");
@@ -39,7 +60,7 @@ namespace NicoV2.Mvvm.ViewModel
         [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            return _canExecute == null ? true : _canExecute((T)parameter);
         }
 
         public event EventHandler CanExecuteChanged
@@ -50,7 +71,7 @@ namespace NicoV2.Mvvm.ViewModel
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            _execute((T)parameter);
         }
 
         #endregion // ICommand Members

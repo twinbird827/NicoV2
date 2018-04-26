@@ -46,10 +46,6 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
     <Reference Include="StatefulModel, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\StatefulModel.0.6.0\lib\portable-net45+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\StatefulModel.dll</HintPath>
     </Reference>
@@ -132,7 +128,6 @@
     <Compile Include="Mvvm\View\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Mvvm\View\ViewModelCleanupBehavior.cs" />
     <Compile Include="Nuget\DynamicJson.cs" />
     <Compile Include="Mvvm\View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

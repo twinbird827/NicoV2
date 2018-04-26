@@ -46,6 +46,21 @@ namespace NicoV2.Mvvm.ViewModel
                 });
             }
         }
+        public ICommand _TestCommand;
+
+        public ICommand TestCommand
+        {
+            get
+            {
+                return _TestCommand = _TestCommand ?? new RelayCommand(
+              _ =>
+              {
+                    // ﾛｸﾞｲﾝ実行
+                    Console.WriteLine("{0}", "test");
+                }
+              );
+            }
+        }
         public ICommand _LoginCommand;
 
         public SettingViewModel()
@@ -59,6 +74,11 @@ namespace NicoV2.Mvvm.ViewModel
 
             // なぜか Password が string.Empty だと上手くﾊﾞｲﾝﾃﾞｨﾝｸﾞできないので対処
             Password = string.IsNullOrEmpty(Password) ? null : Password;
+        }
+
+        public void Test1()
+        {
+            Console.WriteLine("{0}", "test");
         }
     }
 }

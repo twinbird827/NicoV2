@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NicoV2.Mvvm.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,6 +98,19 @@ namespace NicoV2.Mvvm.View
 
         #endregion
 
+        private ICommand _NumberingCommand;
+        public ICommand NumberingCommand {
+            get
+            {
+                return _NumberingCommand = _NumberingCommand ?? new RelayCommand<Button>(
+                    b =>
+                    {
+                        Current = int.Parse(b.Content.ToString());
+                    }
+                );
+            }
+        }
+
         public event EventHandler CurrentChanged;
 
         public event EventHandler PropertyInitialized;
@@ -106,14 +120,20 @@ namespace NicoV2.Mvvm.View
             InitializeComponent();
 
             this.DataContext = this;
-            this.CurrentChanged += OnCurrentChanged;
             this.PropertyInitialized += OnPropertyInitialized;
+            this.CurrentChanged += OnCurrentChanged;
+
+            Current = 0;
+            Offset = 0;
+            Limit = 10;
+            PageLength = 5;
+            DataLength = 0;
         }
 
         private void SetValueAndRaiseEvent(DependencyProperty dp, object n, object o, EventHandler e)
         {
             SetValue(dp, n);
-            if (o != null && !o.Equals(n))
+            if (n != null && !n.Equals(o))
             {
                 e(this, new EventArgs());
             }
@@ -121,14 +141,118 @@ namespace NicoV2.Mvvm.View
 
         private void OnCurrentChanged(object sender, EventArgs e)
         {
+            var maxPage = GetMaxPage();
+
+            // ﾍﾟｰｼﾞｬ開始位置を取得
+            var index = (int)(Current - Math.Ceiling((PageLength - 1) / 2d));
+
+            // 最終ﾍﾟｰｼﾞまで移動していた場合の考慮
+            index = (index + PageLength - 1) < maxPage ? index : maxPage - PageLength + 1;
+
+            // ﾍﾟｰｼﾞｬ開始位置がﾏｲﾅｽになった場合の考慮
+            index = index <= 0 ? 1 : index;
+
+            // ﾍﾟｰｼﾞｬ開始位置によってPAGE1ﾎﾞﾀﾝの活性/非活性を切り替える。
+            btnFirst.IsEnabled = (1 < index);
+
+            // ﾍﾟｰｼﾞ番号の更新
+            for (int i = 0; i < PageLength; i++)
+            {
+                var button = GetButton(i + 1);
+                button.Content = string.Format("{0}", index + i);
+                button.IsEnabled = !((index + i) == Current);
+            }
+
+            // TODO PAGE x or x のﾗﾍﾞﾙ変更
+            txtPageSize.Text = string.Format("PAGE {0} of {1}", Current, maxPage);
 
         }
 
         private void OnPropertyInitialized(object sender, EventArgs e)
         {
+            var index = GetMaxPage();
+            index = index <= 0 ? 1 : index;
+            index = index < PageLength ? index : PageLength;
 
+            // 表示/非表示切替
+            for (int i = 1; i <= index; i++)
+            {
+                GetButton(i).Visibility = Visibility.Visible;
+            }
+            for (int i = index + 1; i <= 10; i++)
+            {
+                GetButton(i).Visibility = Visibility.Collapsed;
+            }
+
+            // 
         }
 
+        private void UserControl_LayoutUpdated(object sender, EventArgs e)
+        {
+        }
+
+        private Button GetButton(int index)
+        {
+            switch (index)
+            {
+                case 1:
+                    return btnPage1;
+                case 2:
+                    return btnPage2;
+                case 3:
+                    return btnPage3;
+                case 4:
+                    return btnPage4;
+                case 5:
+                    return btnPage5;
+                case 6:
+                    return btnPage6;
+                case 7:
+                    return btnPage7;
+                case 8:
+                    return btnPage8;
+                case 9:
+                    return btnPage9;
+                case 10:
+                    return btnPage10;
+                default:
+                    throw new ArgumentException(string.Format("Button index: ", index));
+            }
+        }
+
+        private int GetMaxPage()
+        {
+            if (0 < Limit)
+            {
+                return (int)Math.Floor(DataLength / Limit * 1d);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("{0} {1} {2}", PageLength, DataLength, Limit);
+            PropertyInitialized(this, new EventArgs());
+            CurrentChanged(this, new EventArgs());
+        }
+
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            Current--;
+        }
+
+        private void btnFirst_Click(object sender, RoutedEventArgs e)
+        {
+            Current = 1;
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            Current++;
+        }
 
     }
 }

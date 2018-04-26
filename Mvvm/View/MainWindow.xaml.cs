@@ -24,13 +24,7 @@ namespace NicoV2.Mvvm.View
     {
         public MainWindow()
         {
-            var assemblyLoaded = typeof(System.Windows.Interactivity.Interaction) != null;
             InitializeComponent();
-        }
-
-        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }
