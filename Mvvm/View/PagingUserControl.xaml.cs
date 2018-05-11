@@ -96,9 +96,23 @@ namespace NicoV2.Mvvm.View
         public static readonly DependencyProperty DataLengthProperty =
             DependencyProperty.Register("DataLength", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
 
+        /// <summary>
+        /// データ件数を取得、または設定します。
+        /// </summary>
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValueAndRaiseEvent(CommandProperty, value, Command, PropertyInitialized); }
+        }
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(PagingUserControl), new PropertyMetadata());
+
         #endregion
 
-        private ICommand _NumberingCommand;
+        /// <summary>
+        /// ﾍﾟｰｼﾞﾝｸﾞﾎﾞﾀﾝ押下時のｺﾏﾝﾄﾞ
+        /// </summary>
         public ICommand NumberingCommand {
             get
             {
@@ -106,15 +120,92 @@ namespace NicoV2.Mvvm.View
                     b =>
                     {
                         Current = int.Parse(b.Content.ToString());
+                    },
+                    b =>
+                    {
+                        return int.Parse(b.Content.ToString()) * Limit <= DataLength;
                     }
                 );
             }
         }
+        private ICommand _NumberingCommand;
 
+        /// <summary>
+        /// 前へﾎﾞﾀﾝ押下時のｺﾏﾝﾄﾞ
+        /// </summary>
+        public ICommand PreviousCommand
+        {
+            get
+            {
+                return _PreviousCommand = _PreviousCommand ?? new RelayCommand(
+                    _ =>
+                    {
+                        Current--;
+                    },
+                    _ =>
+                    {
+                        return 0 < Current;
+                    }
+                );
+            }
+        }
+        private ICommand _PreviousCommand;
+
+        /// <summary>
+        /// 次へﾎﾞﾀﾝ押下時のｺﾏﾝﾄﾞ
+        /// </summary>
+        public ICommand NextCommand
+        {
+            get
+            {
+                return _NextCommand = _NextCommand ?? new RelayCommand(
+                    _ =>
+                    {
+                        Current++;
+                    },
+                    _ =>
+                    {
+                        return Current < GetMaxPage();
+                    }
+                );
+            }
+        }
+        private ICommand _NextCommand;
+
+        /// <summary>
+        /// 最初へﾎﾞﾀﾝ押下時のｺﾏﾝﾄﾞ
+        /// </summary>
+        public ICommand FirstCommand
+        {
+            get
+            {
+                return _FirstCommand = _FirstCommand ?? new RelayCommand(
+                    _ =>
+                    {
+                        Current = 1;
+                    },
+                    _ =>
+                    {
+                        return 0 < GetMaxPage();
+                    }
+                );
+            }
+        }
+        private ICommand _FirstCommand;
+
+        /// <summary>
+        /// Currentﾌﾟﾛﾊﾟﾃｨ変更時のｲﾍﾞﾝﾄ
+        /// </summary>
         public event EventHandler CurrentChanged;
 
+        /// <summary>
+        /// ﾍﾟｰｼﾞﾝｸﾞの描写を変更すべきﾌﾟﾛﾊﾟﾃｨが変更されたときのｲﾍﾞﾝﾄ
+        /// </summary>
         public event EventHandler PropertyInitialized;
 
+        /// <summary>
+        /// ｺﾝｽﾄﾗｸﾀ
+        /// </summary>
         public PagingUserControl()
         {
             InitializeComponent();
@@ -122,14 +213,17 @@ namespace NicoV2.Mvvm.View
             this.DataContext = this;
             this.PropertyInitialized += OnPropertyInitialized;
             this.CurrentChanged += OnCurrentChanged;
+            this.CurrentChanged += OnUserCurrentChanged;
 
-            Current = 0;
-            Offset = 0;
-            Limit = 10;
-            PageLength = 5;
-            DataLength = 0;
         }
 
+        /// <summary>
+        /// ﾌﾟﾛﾊﾟﾃｨに値をｾｯﾄし、また、新しく設定する値が古い値と異なる場合、指定されたｲﾍﾞﾝﾄを発生させます。
+        /// </summary>
+        /// <param name="dp">ﾌﾟﾛﾊﾟﾃｨ</param>
+        /// <param name="n">新しい値</param>
+        /// <param name="o">古い値</param>
+        /// <param name="e">ｲﾍﾞﾝﾄ</param>
         private void SetValueAndRaiseEvent(DependencyProperty dp, object n, object o, EventHandler e)
         {
             SetValue(dp, n);
@@ -139,6 +233,9 @@ namespace NicoV2.Mvvm.View
             }
         }
 
+        /// <summary>
+        /// Currentﾌﾟﾛﾊﾟﾃｨ変更時の規定のｲﾍﾞﾝﾄ
+        /// </summary>
         private void OnCurrentChanged(object sender, EventArgs e)
         {
             var maxPage = GetMaxPage();
@@ -163,11 +260,25 @@ namespace NicoV2.Mvvm.View
                 button.IsEnabled = !((index + i) == Current);
             }
 
+            // Offsetの更新
+            Offset = (Current - 1) * Limit;
+
             // TODO PAGE x or x のﾗﾍﾞﾙ変更
             txtPageSize.Text = string.Format("PAGE {0} of {1}", Current, maxPage);
 
         }
 
+        /// <summary>
+        /// ﾕｰｻﾞが指定したCurrentﾌﾟﾛﾊﾟﾃｨ変更時のｲﾍﾞﾝﾄ
+        /// </summary>
+        private void OnUserCurrentChanged(object sender, EventArgs e)
+        {
+            if (Command != null) Command.Execute(null);
+        }
+
+        /// <summary>
+        /// ﾍﾟｰｼﾞﾝｸﾞの描写を変更すべきﾌﾟﾛﾊﾟﾃｨが変更されたときのｲﾍﾞﾝﾄ
+        /// </summary>
         private void OnPropertyInitialized(object sender, EventArgs e)
         {
             var index = GetMaxPage();
@@ -187,10 +298,11 @@ namespace NicoV2.Mvvm.View
             // 
         }
 
-        private void UserControl_LayoutUpdated(object sender, EventArgs e)
-        {
-        }
-
+        /// <summary>
+        /// indexに紐付くﾎﾞﾀﾝｲﾝｽﾀﾝｽを取得します。
+        /// </summary>
+        /// <param name="index">ｲﾝﾃﾞｯｸｽ</param>
+        /// <returns><code>Button</code></returns>
         private Button GetButton(int index)
         {
             switch (index)
@@ -220,6 +332,10 @@ namespace NicoV2.Mvvm.View
             }
         }
 
+        /// <summary>
+        /// 現在のﾘﾐｯﾄ、ﾃﾞｰﾀ件数に基づく最大ﾍﾟｰｼﾞ数を取得します。
+        /// </summary>
+        /// <returns></returns>
         private int GetMaxPage()
         {
             if (0 < Limit)
@@ -232,27 +348,14 @@ namespace NicoV2.Mvvm.View
             }
         }
 
+        /// <summary>
+        /// 本ｵﾌﾞｼﾞｪｸﾄ読み込み時のｲﾍﾞﾝﾄ
+        /// </summary>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("{0} {1} {2}", PageLength, DataLength, Limit);
             PropertyInitialized(this, new EventArgs());
             CurrentChanged(this, new EventArgs());
         }
-
-        private void btnPrev_Click(object sender, RoutedEventArgs e)
-        {
-            Current--;
-        }
-
-        private void btnFirst_Click(object sender, RoutedEventArgs e)
-        {
-            Current = 1;
-        }
-
-        private void btnNext_Click(object sender, RoutedEventArgs e)
-        {
-            Current++;
-        }
-
     }
 }

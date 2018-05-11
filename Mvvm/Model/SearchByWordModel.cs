@@ -64,6 +64,16 @@ namespace NicoV2.Mvvm.Model
         private string _OrderBy = null;
 
         /// <summary>
+        /// ﾃﾞｰﾀ件数
+        /// </summary>
+        public int DataLength
+        {
+            get { return _DataLength; }
+            set { SetProperty(ref _DataLength, value); }
+        }
+        private int _DataLength = 0;
+
+        /// <summary>
         /// ｱｲﾃﾑ構成
         /// </summary>
         public ObservableSynchronizedCollection<VideoModel> Items
@@ -120,7 +130,9 @@ namespace NicoV2.Mvvm.Model
                 });
             }
 
-            ServiceFactory.MessageService.Error(url);
+            DataLength = json["meta"]["totalCount"];
+
+            ServiceFactory.MessageService.Info(url);
         }
 
         private bool IsError(string txt)

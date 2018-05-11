@@ -56,6 +56,8 @@ namespace NicoV2.Mvvm
 
         private bool IsDisposed { get { return disposedValue; } }
 
+        private static List<string> DisposedArrays = new List<string>();
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -66,7 +68,10 @@ namespace NicoV2.Mvvm
                         .Select(p => p.GetValue(this, null))
                         .Where(o => o != null && !this.Equals(o))
                         .OfType<BindableBase>()
+                        .Where(b => !DisposedArrays.Contains(b.Guid))
                         .ToArray();
+
+                    DisposedArrays.Add(this.Guid);
 
                     foreach (var d in disposables)
                     {
@@ -125,6 +130,11 @@ namespace NicoV2.Mvvm
         {
 
         }
+
+        /// <summary>
+        /// GUID
+        /// </summary>
+        private string Guid { get; set; } = System.Guid.NewGuid().ToString();
 
         #endregion
 

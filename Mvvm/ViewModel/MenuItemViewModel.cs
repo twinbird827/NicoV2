@@ -97,17 +97,25 @@ namespace NicoV2.Mvvm.ViewModel
             {
                 case MenuItemType.Setting:
                     return new SettingViewModel();
+                case MenuItemType.SearchByWord:
+                    return new SearchByWordViewModel();
                 default:
                     return null;
             }
         }
 
+        public void OnItemDoubleClick()
+        {
+            Menu.MainWindow.Current = WorkSpace;
+        }
         #region IDisposable Support
 
         public void Test1()
         {
             Console.WriteLine(Name);
         }
+
+
         protected override void OnDisposing()
         {
             base.OnDisposing();

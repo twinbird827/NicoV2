@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NicoV2.Mvvm.View"
-             mc:Ignorable="d" LayoutUpdated="UserControl_LayoutUpdated" Loaded="UserControl_Loaded" >
+             mc:Ignorable="d" Loaded="UserControl_Loaded" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -23,8 +23,8 @@
                         <Setter Property="Padding" Value="10,0"></Setter>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnPrev" Content="&lt;" Click="btnPrev_Click"/>
-                <Button x:Name="btnFirst" Content="1" Click="btnFirst_Click" />
+                <Button x:Name="btnPrev" Content="&lt;" Command="{Binding PreviousCommand}" />
+                <Button x:Name="btnFirst" Content="1" Command="{Binding FirstCommand}" />
                 <Button x:Name="btnPeriod" Content="…" IsEnabled="False" />
                 <Button x:Name="btnPage1" Content="1" Command="{Binding NumberingCommand}" CommandParameter="{Binding ElementName=btnPage1}" />
                 <Button x:Name="btnPage2" Content="2" Command="{Binding NumberingCommand}" CommandParameter="{Binding ElementName=btnPage2}" />
@@ -36,7 +36,7 @@
                 <Button x:Name="btnPage8" Content="8" Command="{Binding NumberingCommand}" CommandParameter="{Binding ElementName=btnPage8}" />
                 <Button x:Name="btnPage9" Content="9" Command="{Binding NumberingCommand}" CommandParameter="{Binding ElementName=btnPage9}" />
                 <Button x:Name="btnPage10" Content="10" Command="{Binding NumberingCommand}" CommandParameter="{Binding ElementName=btnPage10}" />
-                <Button x:Name="btnNext" Content="&gt;" Click="btnNext_Click" />
+                <Button x:Name="btnNext" Content="&gt;" Command="{Binding NextCommand}" />
             </StackPanel>
             <TextBlock x:Name="txtPageSize" Grid.Column="2"
                    Margin="10,5"

@@ -129,4 +129,37 @@
   <data name="VW01004" xml:space="preserve">
     <value>ログイン情報</value>
   </data>
+  <data name="VW02001" xml:space="preserve">
+    <value>タグ検索</value>
+  </data>
+  <data name="VW02002" xml:space="preserve">
+    <value>ワード検索</value>
+  </data>
+  <data name="VW02003" xml:space="preserve">
+    <value>ThumbnailUrl</value>
+  </data>
+  <data name="VW02004" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="VW02005" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="VW02006" xml:space="preserve">
+    <value>ViewCounter</value>
+  </data>
+  <data name="VW02007" xml:space="preserve">
+    <value>MylistCounter</value>
+  </data>
+  <data name="VW02008" xml:space="preserve">
+    <value>CommentCounter</value>
+  </data>
+  <data name="VW02009" xml:space="preserve">
+    <value>StartTime</value>
+  </data>
+  <data name="VW02010" xml:space="preserve">
+    <value>LastCommentTime</value>
+  </data>
+  <data name="VW02011" xml:space="preserve">
+    <value>LengthSeconds</value>
+  </data>
 </root>

@@ -45,6 +45,10 @@
             <DataTemplate DataType="{x:Type vm:SettingViewModel}">
                 <local:SettingPage />
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:SearchByWordViewModel}">
+                <local:SearchByWordPage />
+            </DataTemplate>
 
         </ResourceDictionary>
 
@@ -71,7 +75,7 @@
                                 <ContentControl>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseDoubleClick">
-                                            <local:CallMethodAction TargetObject="{Binding}" MethodName="Test1" />
+                                            <local:CallMethodAction TargetObject="{Binding}" MethodName="OnItemDoubleClick" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Grid HorizontalAlignment="Stretch">

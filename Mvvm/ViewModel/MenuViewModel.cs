@@ -11,7 +11,7 @@ namespace NicoV2.Mvvm.ViewModel
 {
     public class MenuViewModel : BindableBase
     {
-        private MainWindowViewModel MainWindow { get; set; }
+        public MainWindowViewModel MainWindow { get; set; }
 
         /// <summary>
         /// ﾒﾆｭｰ構成のｿｰｽとなるﾓﾃﾞﾙを設定、または取得します。

@@ -148,5 +148,15 @@ namespace NicoV2.Mvvm.Model
         }
         private string _CommunityIcon = null;
 
+        /// <summary>
+        /// 最終ｺﾒﾝﾄ時間
+        /// </summary>
+        public DateTime LastUpdateTime
+        {
+            get { return _LastUpdateTime; }
+            set { SetProperty(ref _LastUpdateTime, value); }
+        }
+        private DateTime _LastUpdateTime = DateTime.Now;
+
     }
 }

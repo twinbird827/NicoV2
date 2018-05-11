@@ -95,5 +95,104 @@ namespace NicoV2.Properties {
                 return ResourceManager.GetString("VW01004", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   タグ検索 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02001 {
+            get {
+                return ResourceManager.GetString("VW02001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ワード検索 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02002 {
+            get {
+                return ResourceManager.GetString("VW02002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ThumbnailUrl に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02003 {
+            get {
+                return ResourceManager.GetString("VW02003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02004 {
+            get {
+                return ResourceManager.GetString("VW02004", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02005 {
+            get {
+                return ResourceManager.GetString("VW02005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ViewCounter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02006 {
+            get {
+                return ResourceManager.GetString("VW02006", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MylistCounter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02007 {
+            get {
+                return ResourceManager.GetString("VW02007", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CommentCounter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02008 {
+            get {
+                return ResourceManager.GetString("VW02008", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   StartTime に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02009 {
+            get {
+                return ResourceManager.GetString("VW02009", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LastCommentTime に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02010 {
+            get {
+                return ResourceManager.GetString("VW02010", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LengthSeconds に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string VW02011 {
+            get {
+                return ResourceManager.GetString("VW02011", resourceCulture);
+            }
+        }
     }
 }

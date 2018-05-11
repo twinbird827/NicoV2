@@ -79,6 +79,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Mvvm\View\SearchByWordPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Mvvm\View\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,7 +113,10 @@
     <Compile Include="Mvvm\Model\MenuItemModel.cs" />
     <Compile Include="Mvvm\Model\MenuItemType.cs" />
     <Compile Include="Mvvm\Model\MenuModel.cs" />
+    <Compile Include="Mvvm\Model\RankingModel.cs" />
     <Compile Include="Mvvm\Model\SearchByWordModel.cs" />
+    <Compile Include="Mvvm\Model\SortItemModel.cs" />
+    <Compile Include="Mvvm\Model\SortModel.cs" />
     <Compile Include="Mvvm\Model\VideoModel.cs" />
     <Compile Include="Mvvm\Service\ConsoleMessageService.cs" />
     <Compile Include="Mvvm\Service\IMessageService.cs" />
@@ -118,6 +125,7 @@
     <Compile Include="Mvvm\ViewModel\MenuItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MenuViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\RelayCommand.cs" />
+    <Compile Include="Mvvm\ViewModel\SearchByWordViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SettingViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\WorkSpaceViewModel.cs" />
     <Compile Include="Mvvm\View\CallMethodAction.cs" />
@@ -125,6 +133,9 @@
       <DependentUpon>PagingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\View\PasswordBoxHelper.cs" />
+    <Compile Include="Mvvm\View\SearchByWordPage.xaml.cs">
+      <DependentUpon>SearchByWordPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mvvm\View\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>

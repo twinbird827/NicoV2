@@ -1,5 +1,6 @@
 ﻿using NicoV2.IO;
 using NicoV2.Mvvm.Model;
+using NicoV2.Mvvm.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace NicoV2.Mvvm.ViewModel
                 {
                     // ﾛｸﾞｲﾝ実行
                     this.LoginSource.Login(MailAddress, Password);
-                    Console.WriteLine("{0}", this.LoginSource.IsLogin);
+                    ServiceFactory.MessageService.Info(this.LoginSource.IsLogin.ToString());
                     //Console.WriteLine("mail: {0}, pass: {1}", MailAddress, Password);
                     //Variables.MailAddress = MailAddress;
                     //Variables.Password = Password;
@@ -46,7 +47,7 @@ namespace NicoV2.Mvvm.ViewModel
                 });
             }
         }
-        public ICommand _TestCommand;
+        public ICommand _LoginCommand;
 
         public ICommand TestCommand
         {
@@ -61,7 +62,7 @@ namespace NicoV2.Mvvm.ViewModel
               );
             }
         }
-        public ICommand _LoginCommand;
+        public ICommand _TestCommand;
 
         public SettingViewModel()
         {
