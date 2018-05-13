@@ -13,6 +13,12 @@ namespace NicoV2.Mvvm.Model
 {
     public class SearchByWordModel : HttpModel
     {
+        public SearchByWordModel()
+        {
+            this.Method = "GET";
+            this.ContentType = "application/x-www-form-urlencoded";
+        }
+
         /// <summary>
         /// 検索ﾜｰﾄﾞ
         /// </summary>
@@ -66,12 +72,12 @@ namespace NicoV2.Mvvm.Model
         /// <summary>
         /// ﾃﾞｰﾀ件数
         /// </summary>
-        public int DataLength
+        public double DataLength
         {
             get { return _DataLength; }
             set { SetProperty(ref _DataLength, value); }
         }
-        private int _DataLength = 0;
+        private double _DataLength = 0;
 
         /// <summary>
         /// ｱｲﾃﾑ構成
@@ -118,15 +124,15 @@ namespace NicoV2.Mvvm.Model
                     Title = data["title"],
                     Description = data["description"],
                     Tags = data["tags"],
-                    CategoryTag = data["categoryTag"],
+                    //CategoryTag = data["categoryTag"],
                     ViewCounter = data["viewCounter"],
                     MylistCounter = data["mylistCounter"],
                     CommentCounter = data["commentCounter"],
                     StartTime = DateTime.Parse(data["startTime"]),
-                    LastCommentTime = new DateTime(data["lastCommentTime"] * 1000),
-                    LengthSeconds = data["lengthSeconds"],
-                    ThumbnailUrl = data["thumbnailUrl"],
-                    CommunityIcon = data["communityIcon"]
+                    LastCommentTime = DateTime.Parse(data["lastCommentTime"]),
+                    //LengthSeconds = data["lengthSeconds"],
+                    //ThumbnailUrl = data["thumbnailUrl"],
+                    //CommunityIcon = data["communityIcon"]
                 });
             }
 
@@ -145,37 +151,37 @@ namespace NicoV2.Mvvm.Model
 
             var json = DynamicJson.Parse(txt);
 
-            if (json["meta"]["status"] == "400")
+            if (json["meta"]["status"] == 400d)
             {
                 ServiceFactory.MessageService.Error("不正なパラメータです。");
                 return true;
             }
 
-            if (json["meta"]["status"] == "500")
+            if (json["meta"]["status"] == 500d)
             {
                 ServiceFactory.MessageService.Error("検索サーバの異常です。");
                 return true;
             }
 
-            if (json["meta"]["status"] == "503")
+            if (json["meta"]["status"] == 503d)
             {
                 ServiceFactory.MessageService.Error("サービスがメンテナンス中です。メンテナンス終了までお待ち下さい。");
                 return true;
             }
 
-            if (json["meta"]["status"] == "410")
+            if (json["meta"]["status"] == 410d)
             {
                 ServiceFactory.MessageService.Error("検索結果が見つかりませんでした。");
                 return true;
             }
 
-            if (json["meta"]["status"] == "403")
+            if (json["meta"]["status"] == 403d)
             {
                 ServiceFactory.MessageService.Error("非公開に設定されています。");
                 return true;
             }
 
-            if (json["meta"]["status"] != "200")
+            if (json["meta"]["status"] != 200d)
             {
                 ServiceFactory.MessageService.Error("何らかの通信エラーです。");
                 return true;

@@ -71,32 +71,32 @@ namespace NicoV2.Mvvm.Model
         /// <summary>
         /// 再生数
         /// </summary>
-        public int ViewCounter
+        public double ViewCounter
         {
             get { return _ViewCounter; }
             set { SetProperty(ref _ViewCounter, value); }
         }
-        private int _ViewCounter = default(int);
+        private double _ViewCounter = default(int);
 
         /// <summary>
         /// ﾏｲﾘｽﾄ数
         /// </summary>
-        public int MylistCounter
+        public double MylistCounter
         {
             get { return _MylistCounter; }
             set { SetProperty(ref _MylistCounter, value); }
         }
-        private int _MylistCounter = default(int);
+        private double _MylistCounter = default(int);
 
         /// <summary>
         /// ｺﾒﾝﾄ数
         /// </summary>
-        public int CommentCounter
+        public double CommentCounter
         {
             get { return _CommentCounter; }
             set { SetProperty(ref _CommentCounter, value); }
         }
-        private int _CommentCounter = default(int);
+        private double _CommentCounter = default(int);
 
         /// <summary>
         /// ｺﾝﾃﾝﾂの投稿時間

@@ -25,9 +25,13 @@ namespace NicoV2.Mvvm.ViewModel
         public SearchByWordViewModel(SearchByWordModel model)
         {
             Source = model;
+            Items = Source.Items.ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
+
             SortModel = SortModel.Instance;
             SortItems = SortModel.Items.ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
             SelectedSortItem = SortItems.First();
+
+
         }
 
         /// <summary>
@@ -108,12 +112,12 @@ namespace NicoV2.Mvvm.ViewModel
         /// <summary>
         /// ﾃﾞｰﾀ件数
         /// </summary>
-        public int DataLength
+        public double DataLength
         {
             get { return _DataLength; }
             set { SetProperty(ref _DataLength, value); }
         }
-        private int _DataLength = 0;
+        private double _DataLength = 0;
 
         public ICommand SearchCommand
         {

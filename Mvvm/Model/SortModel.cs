@@ -39,14 +39,14 @@ namespace NicoV2.Mvvm.Model
         {
             _Items = new ObservableSynchronizedCollection<SortItemModel>
             {
-                new SortItemModel() { Keyword = "-title", Description = "-title" },
-                new SortItemModel() { Keyword = "+title", Description = "+title" },
-                new SortItemModel() { Keyword = "-description", Description = "-description" },
-                new SortItemModel() { Keyword = "+description", Description = "+description" },
-                new SortItemModel() { Keyword = "-tags", Description = "-tags" },
-                new SortItemModel() { Keyword = "+tags", Description = "+tags" },
-                new SortItemModel() { Keyword = "-categoryTags", Description = "-categoryTags" },
-                new SortItemModel() { Keyword = "+categoryTags", Description = "+categoryTags" },
+                //new SortItemModel() { Keyword = "-title", Description = "-title" },
+                //new SortItemModel() { Keyword = "+title", Description = "+title" },
+                //new SortItemModel() { Keyword = "-description", Description = "-description" },
+                //new SortItemModel() { Keyword = "+description", Description = "+description" },
+                //new SortItemModel() { Keyword = "-tags", Description = "-tags" },
+                //new SortItemModel() { Keyword = "+tags", Description = "+tags" },
+                //new SortItemModel() { Keyword = "-categoryTags", Description = "-categoryTags" },
+                //new SortItemModel() { Keyword = "+categoryTags", Description = "+categoryTags" },
                 new SortItemModel() { Keyword = "-viewCounter", Description = "-viewCounter" },
                 new SortItemModel() { Keyword = "+viewCounter", Description = "+viewCounter" },
                 new SortItemModel() { Keyword = "-mylistCounter", Description = "-mylistCounter" },
