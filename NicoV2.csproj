@@ -125,6 +125,7 @@
     <Compile Include="Mvvm\ViewModel\MenuItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MenuViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\RelayCommand.cs" />
+    <Compile Include="Mvvm\ViewModel\SearchByWordItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SearchByWordViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SettingViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\WorkSpaceViewModel.cs" />

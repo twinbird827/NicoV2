@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NicoV2.Mvvm.View"
              mc:Ignorable="d" Loaded="UserControl_Loaded" >
-    <Grid>
+    <Grid x:Name="baseContainer">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />

@@ -42,11 +42,18 @@ namespace NicoV2.Mvvm.View
         public int Current
         {
             get { return (int)GetValue(CurrentProperty); }
-            set { SetValueAndRaiseEvent(CurrentProperty, value, Current, CurrentChanged); }
+            set { SetValue(CurrentProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register("Current", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
+            DependencyProperty.Register(
+                "Current", 
+                typeof(int),
+                typeof(PagingUserControl), 
+                new FrameworkPropertyMetadata(
+                    new PropertyChangedCallback(PagingUserControl.OnCurrentChanged)
+                )
+            );
 
         /// <summary>
         /// 現在の表示位置をデータ件数換算で取得、または設定します。
@@ -66,11 +73,18 @@ namespace NicoV2.Mvvm.View
         public int Limit
         {
             get { return (int)GetValue(LimitProperty); }
-            set { SetValueAndRaiseEvent(LimitProperty, value, Limit, PropertyInitialized); }
+            set { SetValue(LimitProperty, value); }
         }
 
         public static readonly DependencyProperty LimitProperty =
-            DependencyProperty.Register("Limit", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
+            DependencyProperty.Register(
+                "Limit", 
+                typeof(int), 
+                typeof(PagingUserControl),
+                new FrameworkPropertyMetadata(
+                    new PropertyChangedCallback(PagingUserControl.OnPropertyInitialized)
+                )
+            );
 
         /// <summary>
         /// ページングボタンの数を取得、または設定します。
@@ -78,11 +92,18 @@ namespace NicoV2.Mvvm.View
         public int PageLength
         {
             get { return (int)GetValue(PageLengthProperty); }
-            set { SetValueAndRaiseEvent(PageLengthProperty, value, PageLength, PropertyInitialized); }
+            set { SetValue(PageLengthProperty, value); }
         }
 
         public static readonly DependencyProperty PageLengthProperty =
-            DependencyProperty.Register("PageLength", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
+            DependencyProperty.Register(
+                "PageLength",
+                typeof(int),
+                typeof(PagingUserControl),
+                new FrameworkPropertyMetadata(
+                    new PropertyChangedCallback(PagingUserControl.OnPropertyInitialized)
+                )
+            );
 
         /// <summary>
         /// データ件数を取得、または設定します。
@@ -90,11 +111,18 @@ namespace NicoV2.Mvvm.View
         public int DataLength
         {
             get { return (int)GetValue(DataLengthProperty); }
-            set { SetValueAndRaiseEvent(DataLengthProperty, value, DataLength, PropertyInitialized); }
+            set { SetValue(DataLengthProperty, value); }
         }
 
         public static readonly DependencyProperty DataLengthProperty =
-            DependencyProperty.Register("DataLength", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
+            DependencyProperty.Register(
+                "DataLength",
+                typeof(int),
+                typeof(PagingUserControl), 
+                new FrameworkPropertyMetadata(
+                    new PropertyChangedCallback(PagingUserControl.OnPropertyInitialized)
+                )
+            );
 
         /// <summary>
         /// データ件数を取得、または設定します。
@@ -102,7 +130,7 @@ namespace NicoV2.Mvvm.View
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValueAndRaiseEvent(CommandProperty, value, Command, PropertyInitialized); }
+            set { SetValue(CommandProperty, value); }
         }
 
         public static readonly DependencyProperty CommandProperty =
@@ -210,27 +238,11 @@ namespace NicoV2.Mvvm.View
         {
             InitializeComponent();
 
-            this.DataContext = this;
+            baseContainer.DataContext = this;
             this.PropertyInitialized += OnPropertyInitialized;
             this.CurrentChanged += OnCurrentChanged;
             this.CurrentChanged += OnUserCurrentChanged;
 
-        }
-
-        /// <summary>
-        /// ﾌﾟﾛﾊﾟﾃｨに値をｾｯﾄし、また、新しく設定する値が古い値と異なる場合、指定されたｲﾍﾞﾝﾄを発生させます。
-        /// </summary>
-        /// <param name="dp">ﾌﾟﾛﾊﾟﾃｨ</param>
-        /// <param name="n">新しい値</param>
-        /// <param name="o">古い値</param>
-        /// <param name="e">ｲﾍﾞﾝﾄ</param>
-        private void SetValueAndRaiseEvent(DependencyProperty dp, object n, object o, EventHandler e)
-        {
-            SetValue(dp, n);
-            if (n != null && !n.Equals(o))
-            {
-                e(this, new EventArgs());
-            }
         }
 
         /// <summary>
@@ -299,6 +311,24 @@ namespace NicoV2.Mvvm.View
         }
 
         /// <summary>
+        /// CurrentChangedｲﾍﾞﾝﾄを発行します。
+        /// </summary>
+        private static void OnCurrentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var instance = sender as PagingUserControl;
+            if (instance != null) instance.CurrentChanged(sender, new EventArgs());
+        }
+
+        /// <summary>
+        /// PropertyInitializedｲﾍﾞﾝﾄを発行します。
+        /// </summary>
+        private static void OnPropertyInitialized(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var instance = sender as PagingUserControl;
+            if (instance != null) instance.PropertyInitialized(sender, new EventArgs());
+        }
+
+        /// <summary>
         /// indexに紐付くﾎﾞﾀﾝｲﾝｽﾀﾝｽを取得します。
         /// </summary>
         /// <param name="index">ｲﾝﾃﾞｯｸｽ</param>
@@ -353,7 +383,6 @@ namespace NicoV2.Mvvm.View
         /// </summary>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("{0} {1} {2}", PageLength, DataLength, Limit);
             PropertyInitialized(this, new EventArgs());
             CurrentChanged(this, new EventArgs());
         }
