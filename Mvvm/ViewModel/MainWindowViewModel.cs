@@ -22,6 +22,13 @@ namespace NicoV2.Mvvm.ViewModel
         }
         private WorkSpaceViewModel _Current;
 
+        public bool IsOpenMenu
+        {
+            get { return _IsOpenMenu; }
+            set { SetProperty(ref _IsOpenMenu, value); }
+        }
+        private bool _IsOpenMenu;
+
         public MainWindowViewModel()
         {
             // ﾒﾆｭｰ構成を作成
@@ -32,6 +39,10 @@ namespace NicoV2.Mvvm.ViewModel
             Current = new SettingViewModel();
         }
 
+        public void OnChangeMenuOpend()
+        {
+            IsOpenMenu = !IsOpenMenu;
+        }
         protected override void OnDisposing()
         {
             base.OnDisposing();

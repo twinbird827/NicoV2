@@ -115,7 +115,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   ThumbnailUrl に類似しているローカライズされた文字列を検索します。
+        ///   サムネイル に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02003 {
             get {
@@ -124,7 +124,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   Title に類似しているローカライズされた文字列を検索します。
+        ///   タイトル に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02004 {
             get {
@@ -142,7 +142,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   ViewCounter に類似しているローカライズされた文字列を検索します。
+        ///   再生数 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02006 {
             get {
@@ -151,7 +151,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   MylistCounter に類似しているローカライズされた文字列を検索します。
+        ///   マイリスト に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02007 {
             get {
@@ -160,7 +160,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   CommentCounter に類似しているローカライズされた文字列を検索します。
+        ///   コメント に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02008 {
             get {
@@ -169,7 +169,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   StartTime に類似しているローカライズされた文字列を検索します。
+        ///   登録日時 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02009 {
             get {
@@ -187,7 +187,7 @@ namespace NicoV2.Properties {
         }
         
         /// <summary>
-        ///   LengthSeconds に類似しているローカライズされた文字列を検索します。
+        ///   再生時間 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string VW02011 {
             get {

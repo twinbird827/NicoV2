@@ -26,7 +26,7 @@
 
     <!-- 本WindowのViewModel -->
     <UserControl.DataContext>
-        <vm:SearchByWordViewModel/>
+        <vm:SearchByWordViewModel x:Name="myVM"/>
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -81,17 +81,103 @@
         <!-- ﾒｲﾝ領域 -->
         <Grid Grid.Row="1">
             <ListView ItemsSource="{Binding Items}">
+                <ListView.Resources>
+                    <local:LongToHMSConverter x:Key="longToHMSConverter" />
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" >
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
+                        <!-- 
                         <GridViewColumn DisplayMemberBinding="{Binding ThumbnailUrl}" Header="{x:Static properties:Resources.VW02003}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Title}" Header="{x:Static properties:Resources.VW02004}" />
+                        -->
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02003}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Thumbnail}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02004}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- 
                         <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="{x:Static properties:Resources.VW02005}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding ViewCounter}" Header="{x:Static properties:Resources.VW02006}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding MylistCounter}" Header="{x:Static properties:Resources.VW02007}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding CommentCounter}" Header="{x:Static properties:Resources.VW02008}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding StartTime}" Header="{x:Static properties:Resources.VW02009}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding LastCommentTime}" Header="{x:Static properties:Resources.VW02010}" />
-                        <GridViewColumn DisplayMemberBinding="{Binding LengthSeconds}" Header="{x:Static properties:Resources.VW02011}" />
+                                    -->
+                        <!-- 
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02005}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Description}" />
+                                    <TextBlock Text="{Binding Description}"></TextBlock>
+                                    <TextBox Text="{Binding Description}"/>
+                                    <Grid IsEnabled="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <WebBrowser IsEnabled="False" Grid.Column="0" Grid.Row="0" local:WebBrowserBehaviors.DocumentText="{Binding Description}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                                    -->
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02006}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ViewCounter, StringFormat={}{0:N00}}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02007}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MylistCounter, StringFormat={}{0:N00}}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02008}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CommentCounter, StringFormat={}{0:N00}}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02009}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StartTime, StringFormat={}{0:yy/MM/dd HH:mm:ss}}" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02010}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LastCommentTime, ConverterCulture=ja-JP}" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        -->
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02011}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LengthSeconds, Converter={StaticResource longToHMSConverter}}" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -100,10 +186,10 @@
         <local:PagingUserControl Grid.Row="2"
                 DataLength="{Binding DataLength}"
                 PageLength="5"
-                Current="0"
-                Offset="{Binding Offset}"
+                Current="{Binding Current}"
+                Offset="{Binding Offset, Mode=TwoWay}"
                 Limit="25"
-                Command="{Binding CurrentChangedCommand}">
+                Command="{Binding CurrentChangedCommand, ElementName=myVM}">
         </local:PagingUserControl>
     </Grid>
 </UserControl>

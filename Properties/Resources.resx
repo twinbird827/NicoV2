@@ -136,30 +136,30 @@
     <value>ワード検索</value>
   </data>
   <data name="VW02003" xml:space="preserve">
-    <value>ThumbnailUrl</value>
+    <value>サムネイル</value>
   </data>
   <data name="VW02004" xml:space="preserve">
-    <value>Title</value>
+    <value>タイトル</value>
   </data>
   <data name="VW02005" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="VW02006" xml:space="preserve">
-    <value>ViewCounter</value>
+    <value>再生数</value>
   </data>
   <data name="VW02007" xml:space="preserve">
-    <value>MylistCounter</value>
+    <value>マイリスト</value>
   </data>
   <data name="VW02008" xml:space="preserve">
-    <value>CommentCounter</value>
+    <value>コメント</value>
   </data>
   <data name="VW02009" xml:space="preserve">
-    <value>StartTime</value>
+    <value>登録日時</value>
   </data>
   <data name="VW02010" xml:space="preserve">
     <value>LastCommentTime</value>
   </data>
   <data name="VW02011" xml:space="preserve">
-    <value>LengthSeconds</value>
+    <value>再生時間</value>
   </data>
 </root>

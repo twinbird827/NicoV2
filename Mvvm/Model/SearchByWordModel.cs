@@ -124,14 +124,14 @@ namespace NicoV2.Mvvm.Model
                     Title = data["title"],
                     Description = data["description"],
                     Tags = data["tags"],
-                    //CategoryTag = data["categoryTag"],
+                    CategoryTag = data["categoryTags"],
                     ViewCounter = data["viewCounter"],
                     MylistCounter = data["mylistCounter"],
                     CommentCounter = data["commentCounter"],
-                    StartTime = DateTime.Parse(data["startTime"]),
-                    LastCommentTime = DateTime.Parse(data["lastCommentTime"]),
-                    //LengthSeconds = data["lengthSeconds"],
-                    //ThumbnailUrl = data["thumbnailUrl"],
+                    StartTime = Converter.ToDatetime(data["startTime"]),
+                    LastCommentTime = Converter.ToDatetime(data["lastCommentTime"]),
+                    LengthSeconds = data["lengthSeconds"],
+                    ThumbnailUrl = data["thumbnailUrl"],
                     //CommunityIcon = data["communityIcon"]
                 });
             }

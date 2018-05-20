@@ -106,7 +106,7 @@ namespace NicoV2.IO
 
         public const string TargetKeyword = "title,description,tags";
 
-        public const string Fields = "contentId,title,description,tags,categoryTags,viewCounter,mylistCounter,commentCounter,startTime,lastCommentTime";//"contentId,title,description,tags,categoryTags,viewCounter,mylistCounter,commentCounter,startTime,lastCommentTime,lengthSeconds,thumbnailUrl,communityIcon";
+        public const string Fields = "contentId,title,description,tags,categoryTags,viewCounter,mylistCounter,commentCounter,startTime,lastCommentTime,lengthSeconds,thumbnailUrl";//"contentId,title,description,tags,categoryTags,viewCounter,mylistCounter,commentCounter,startTime,lastCommentTime,lengthSeconds,thumbnailUrl,communityIcon";
 
         public const string Context = "kaz.server-on.net/NicoV2";
 

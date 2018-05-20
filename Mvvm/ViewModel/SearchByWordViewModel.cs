@@ -100,6 +100,16 @@ namespace NicoV2.Mvvm.ViewModel
         private bool _IsTag = true;
 
         /// <summary>
+        /// 現在のﾍﾟｰｼﾞ位置
+        /// </summary>
+        public int Current
+        {
+            get { return _Current; }
+            set { SetProperty(ref _Current, value); }
+        }
+        private int _Current = 1;
+
+        /// <summary>
         /// ｵﾌｾｯﾄ (取得する開始位置)
         /// </summary>
         public int Offset
@@ -126,20 +136,20 @@ namespace NicoV2.Mvvm.ViewModel
                 return _SearchCommand = _SearchCommand ?? new RelayCommand<bool>(
               b =>
               {
-                  // ｵﾌｾｯﾄをﾘｾｯﾄ
-                  this.Offset = 0;
+                  // 現在位置をﾘｾｯﾄ
                   this.IsTag = b;
 
                   // 入力値をﾓﾃﾞﾙにｾｯﾄ
                   Source.Word = this.Word;
+                  Source.Offset = 0;
                   Source.IsTag = this.IsTag;
-                  Source.Offset = this.Offset;
                   Source.OrderBy = this.SelectedSortItem.Keyword;
 
                   // 検索実行
                   this.Source.Reload();
 
                   // ﾃﾞｰﾀ件数をVMにｾｯﾄ
+                  this.Offset = 0;
                   this.DataLength = Source.DataLength;
 
                 },
@@ -157,11 +167,14 @@ namespace NicoV2.Mvvm.ViewModel
                 return _CurrentChangedCommand = _CurrentChangedCommand ?? new RelayCommand(
               _ =>
               {
-                  // ｵﾌｾｯﾄを更新
-                  Source.Offset = this.Offset;
+                  if (Source.Offset != this.Offset)
+                  {
+                      // ｵﾌｾｯﾄを更新
+                      Source.Offset = this.Offset;
 
-                  // 検索実行
-                  this.Source.Reload();
+                      // 検索実行
+                      this.Source.Reload();
+                  }
               },
               _ => {
                   return !string.IsNullOrWhiteSpace(Word);

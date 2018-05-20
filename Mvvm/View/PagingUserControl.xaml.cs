@@ -65,7 +65,14 @@ namespace NicoV2.Mvvm.View
         }
 
         public static readonly DependencyProperty OffsetProperty =
-            DependencyProperty.Register("Offset", typeof(int), typeof(PagingUserControl), new PropertyMetadata());
+            DependencyProperty.Register(
+                "Offset", 
+                typeof(int), 
+                typeof(PagingUserControl), 
+                new FrameworkPropertyMetadata(
+                    new PropertyChangedCallback(PagingUserControl.OnOffsetChanged)
+                )
+            );
 
         /// <summary>
         /// 1ページに表示する件数を取得、または設定します。
@@ -250,6 +257,8 @@ namespace NicoV2.Mvvm.View
         /// </summary>
         private void OnCurrentChanged(object sender, EventArgs e)
         {
+            if (Current <= 0) return;
+
             var maxPage = GetMaxPage();
 
             // ﾍﾟｰｼﾞｬ開始位置を取得
@@ -285,7 +294,7 @@ namespace NicoV2.Mvvm.View
         /// </summary>
         private void OnUserCurrentChanged(object sender, EventArgs e)
         {
-            if (Command != null) Command.Execute(null);
+            if (Command != null && 0 < Current) Command.Execute(null);
         }
 
         /// <summary>
@@ -293,7 +302,8 @@ namespace NicoV2.Mvvm.View
         /// </summary>
         private void OnPropertyInitialized(object sender, EventArgs e)
         {
-            var index = GetMaxPage();
+            var maxPage = GetMaxPage();
+            var index = maxPage;
             index = index <= 0 ? 1 : index;
             index = index < PageLength ? index : PageLength;
 
@@ -307,7 +317,8 @@ namespace NicoV2.Mvvm.View
                 GetButton(i).Visibility = Visibility.Collapsed;
             }
 
-            // 
+            // TODO PAGE x or x のﾗﾍﾞﾙ変更
+            txtPageSize.Text = string.Format("PAGE {0} of {1}", Current, maxPage);
         }
 
         /// <summary>
@@ -316,7 +327,10 @@ namespace NicoV2.Mvvm.View
         private static void OnCurrentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var instance = sender as PagingUserControl;
-            if (instance != null) instance.CurrentChanged(sender, new EventArgs());
+            if (instance != null)
+            {
+                instance.CurrentChanged(sender, new EventArgs());
+            }
         }
 
         /// <summary>
@@ -325,7 +339,22 @@ namespace NicoV2.Mvvm.View
         private static void OnPropertyInitialized(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var instance = sender as PagingUserControl;
-            if (instance != null) instance.PropertyInitialized(sender, new EventArgs());
+            if (instance != null)
+            {
+                instance.PropertyInitialized(sender, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// PropertyInitializedｲﾍﾞﾝﾄを発行します。
+        /// </summary>
+        private static void OnOffsetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var instance = sender as PagingUserControl;
+            if (instance != null)
+            {
+                instance.Current = instance.Offset / instance.Limit + 1;
+            }
         }
 
         /// <summary>

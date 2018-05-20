@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace NicoV2.Mvvm.Model
 {
@@ -121,12 +123,12 @@ namespace NicoV2.Mvvm.Model
         /// <summary>
         /// 再生時間 (秒)
         /// </summary>
-        public int LengthSeconds
+        public double LengthSeconds
         {
             get { return _LengthSeconds; }
             set { SetProperty(ref _LengthSeconds, value); }
         }
-        private int _LengthSeconds = default(int);
+        private double _LengthSeconds = default(double);
 
         /// <summary>
         /// ｻﾑﾈｲﾙUrl
@@ -134,9 +136,20 @@ namespace NicoV2.Mvvm.Model
         public string ThumbnailUrl
         {
             get { return _ThumbnailUrl; }
-            set { SetProperty(ref _ThumbnailUrl, value); }
+            set
+            {
+                SetProperty(ref _ThumbnailUrl, value);
+                SetProperty(ref _Thumbnail, new BitmapImage(new Uri(_ThumbnailUrl)));
+            }
         }
         private string _ThumbnailUrl = null;
+
+        public BitmapImage Thumbnail
+        {
+            get { return _Thumbnail; }
+            set { SetProperty(ref _Thumbnail, value); }
+        }
+        private BitmapImage _Thumbnail;
 
         /// <summary>
         /// ｺﾐｭﾆﾃｨｱｲｺﾝのUrl

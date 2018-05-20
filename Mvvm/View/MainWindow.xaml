@@ -21,11 +21,11 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
 
-        Title="MainWindow" Height="450" Width="800" >
+        Title="MainWindow" x:Name="window" Height="450" Width="800" >
 
     <!-- 本WindowのViewModel -->
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel x:Name="myVM"/>
     </Window.DataContext>
 
     <i:Interaction.Triggers>
@@ -59,6 +59,7 @@
             <ToggleButton Height="15"
                         x:Name="MenuToggleButton"
                         Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                          IsChecked="{Binding IsOpenMenu}"
                         />
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
@@ -76,6 +77,7 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseDoubleClick">
                                             <local:CallMethodAction TargetObject="{Binding}" MethodName="OnItemDoubleClick" />
+                                            <local:CallMethodAction TargetObject="{Binding ElementName=myVM}" MethodName="OnChangeMenuOpend" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Grid HorizontalAlignment="Stretch">

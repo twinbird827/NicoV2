@@ -99,10 +99,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Converter.cs" />
     <Compile Include="Common\Encrypter.cs" />
     <Compile Include="Common\HttpUtil.cs" />
     <Compile Include="Common\JsonUtil.cs" />
     <Compile Include="Common\Win32Methods.cs" />
+    <Compile Include="Common\WpfUtil.cs" />
     <Compile Include="Common\XmlUtil.cs" />
     <Compile Include="IO\Constants.cs" />
     <Compile Include="IO\Ini.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Mvvm\ViewModel\SettingViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\WorkSpaceViewModel.cs" />
     <Compile Include="Mvvm\View\CallMethodAction.cs" />
+    <Compile Include="Mvvm\View\LongToHMSConverter.cs" />
     <Compile Include="Mvvm\View\PagingUserControl.xaml.cs">
       <DependentUpon>PagingUserControl.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,7 @@
     <Compile Include="Mvvm\View\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Mvvm\View\WebBrowserBehaviors.cs" />
     <Compile Include="Nuget\DynamicJson.cs" />
     <Compile Include="Mvvm\View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
