@@ -41,58 +41,60 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Margin="5">
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                </Style>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="150" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Border Grid.Column="0" Grid.Row="0" Margin="5" BorderThickness="1" BorderBrush="Gray">
+            <Grid Margin="5">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <!-- 0/0 - ﾀｲﾄﾙ -->
-            <materialDesign:ColorZone Mode="PrimaryLight"
+                <!-- 0/0 - ﾀｲﾄﾙ -->
+                <materialDesign:ColorZone Mode="PrimaryLight"
                 Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
                 Width="120"
                 VerticalAlignment="Stretch" 
                 HorizontalAlignment="Left"
                 Padding="5,5,5,5"
                 Margin="0,3,3,3" >
-                <TextBlock  VerticalAlignment="Center"
+                    <TextBlock  VerticalAlignment="Center"
                 Text="{x:Static properties:Resources.VW01004}" />
-            </materialDesign:ColorZone>
-            
-            <!-- 0/1 - ﾒｰﾙｱﾄﾞﾚｽ (ﾗﾍﾞﾙ) -->
-            <TextBlock Grid.Column="0" Grid.Row="1"
+                </materialDesign:ColorZone>
+
+                <!-- 0/1 - ﾒｰﾙｱﾄﾞﾚｽ (ﾗﾍﾞﾙ) -->
+                <TextBlock Grid.Column="0" Grid.Row="1"
                 Text="{x:Static properties:Resources.VW01001}" />
 
-            <!-- 1/1 - ﾒｰﾙｱﾄﾞﾚｽ (ﾃｷｽﾄ) -->
-            <TextBox Grid.Column="1" Grid.Row="1"
+                <!-- 1/1 - ﾒｰﾙｱﾄﾞﾚｽ (ﾃｷｽﾄ) -->
+                <TextBox Grid.Column="1" Grid.Row="1"
                 Text="{Binding MailAddress}" />
 
-            <!-- 0/2 - ﾊﾟｽﾜｰﾄﾞ (ﾗﾍﾞﾙ) -->
-            <TextBlock Grid.Column="0" Grid.Row="2"
+                <!-- 0/2 - ﾊﾟｽﾜｰﾄﾞ (ﾗﾍﾞﾙ) -->
+                <TextBlock Grid.Column="0" Grid.Row="2"
                 Text="{x:Static properties:Resources.VW01002}" />
 
-            <!-- 1/2 - ﾊﾟｽﾜｰﾄﾞ (ﾃｷｽﾄ) -->
-            <PasswordBox Grid.Column="1" Grid.Row="2" 
+                <!-- 1/2 - ﾊﾟｽﾜｰﾄﾞ (ﾃｷｽﾄ) -->
+                <PasswordBox Grid.Column="1" Grid.Row="2" 
                 local:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay}" />
 
-            <!-- 0/3 - ﾛｸﾞｲﾝ -->
-            <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Width="150" Margin="3"
+                <!-- 0/3 - ﾛｸﾞｲﾝ -->
+                <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Width="150" Margin="5"
                 Content="{x:Static properties:Resources.VW01003}" 
-                Command="{Binding LoginCommand}">
-            </Button>
+                Command="{Binding OnLogin}">
+                </Button>
 
-        </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

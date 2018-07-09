@@ -21,12 +21,11 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        x:Name="myPage"
         d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- 本WindowのViewModel -->
     <UserControl.DataContext>
-        <vm:SearchByWordViewModel x:Name="myVM"/>
+        <vm:SearchByWordViewModel />
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -48,20 +47,27 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" Grid.Row="0" Margin="3"
-                    Text="{Binding Word}" />
+                <TextBox Grid.Column="0" Grid.Row="0"
+                         x:Name="SearchWord"
+                         Margin="3"
+                         Text="{Binding Word}" >
+                    <TextBox.InputBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding OnSearchByEnter}" CommandParameter="{Binding ElementName=SearchWord, Path=Text}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
 
                 <Button Grid.Column="1" Grid.Row="0" Margin="3"
                     Content="{x:Static properties:Resources.VW02001}" 
-                    Command="{Binding SearchCommand}"
+                    Command="{Binding OnSearch}"
                     CommandParameter="{StaticResource True}">
                 </Button>
 
                 <Button Grid.Column="2" Grid.Row="0" Margin="3"
                     Content="{x:Static properties:Resources.VW02002}" 
-                    Command="{Binding SearchCommand}"
+                    Command="{Binding OnSearch}"
                     CommandParameter="{StaticResource False}">
                 </Button>
 
@@ -74,13 +80,23 @@
                       DisplayMemberPath="Description">
 
                 </ComboBox>
+                
+                <ComboBox Grid.Column="4" Margin="3"
+                      IsEditable="False"
+                      HorizontalAlignment="Right"
+                      Width="100"
+                      ItemsSource="{Binding ThumbSizeItems}"
+                      SelectedValue="{Binding SelectedThumbSizeItem}"
+                      DisplayMemberPath="Description">
+
+                </ComboBox>
 
             </Grid>
         </wpf:ColorZone>
 
         <!-- ﾒｲﾝ領域 -->
         <Grid Grid.Row="1">
-            <ListView ItemsSource="{Binding Items}">
+            <ListView ItemsSource="{Binding Items}" x:Name="listView">
                 <ListView.Resources>
                     <local:LongToHMSConverter x:Key="longToHMSConverter" />
                 </ListView.Resources>
@@ -88,13 +104,20 @@
                     <Style TargetType="ListViewItem" >
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="local:DoubleClickBehaivor.Command" Value="{Binding OnDoubleClick}" />
+                        <Setter Property="local:KeyDownBehaivor.Command" Value="{Binding OnKeyDown}" />
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Temporaryに追加" Command="{Binding OnTemporaryAdd}" />
+                                    <MenuItem Header="Temporaryから削除" Command="{Binding OnTemporaryDel}" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <!-- 
-                        <GridViewColumn DisplayMemberBinding="{Binding ThumbnailUrl}" Header="{x:Static properties:Resources.VW02003}" />
-                        -->
                         <GridViewColumn Header="{x:Static properties:Resources.VW02003}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -109,30 +132,6 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <!-- 
-                        <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="{x:Static properties:Resources.VW02005}" />
-                                    -->
-                        <!-- 
-                        <GridViewColumn Header="{x:Static properties:Resources.VW02005}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding Description}" />
-                                    <TextBlock Text="{Binding Description}"></TextBlock>
-                                    <TextBox Text="{Binding Description}"/>
-                                    <Grid IsEnabled="False">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-                                        <WebBrowser IsEnabled="False" Grid.Column="0" Grid.Row="0" local:WebBrowserBehaviors.DocumentText="{Binding Description}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                                    -->
                         <GridViewColumn Header="{x:Static properties:Resources.VW02006}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -162,19 +161,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <!--
-                        <GridViewColumn Header="{x:Static properties:Resources.VW02010}" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding LastCommentTime, ConverterCulture=ja-JP}" TextAlignment="Center"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        -->
                         <GridViewColumn Header="{x:Static properties:Resources.VW02011}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding LengthSeconds, Converter={StaticResource longToHMSConverter}}" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{x:Static properties:Resources.VW02012}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CategoryTag}" TextWrapping="Wrap"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -189,7 +186,8 @@
                 Current="{Binding Current}"
                 Offset="{Binding Offset, Mode=TwoWay}"
                 Limit="25"
-                Command="{Binding CurrentChangedCommand, ElementName=myVM}">
+                Command="{Binding OnCurrentChanged}"
+                ListView="{Binding ElementName=listView}">
         </local:PagingUserControl>
     </Grid>
 </UserControl>

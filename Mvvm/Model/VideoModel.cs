@@ -1,15 +1,49 @@
-﻿using System;
+﻿using NicoV2.Common;
+using NicoV2.IO;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace NicoV2.Mvvm.Model
 {
-    public class VideoModel : BindableBase
+    public class VideoModel : HttpModel
     {
+        public VideoModel()
+        {
+            this.Method = "GET";
+            this.ContentType = "application/x-www-form-urlencoded";
+        }
+
+        public VideoModel(string id)
+            : this()
+        {
+            this.ContentId = id;
+
+            // ﾋﾞﾃﾞｵ詳細情報取得
+            var url = string.Format(Constants.VideoDetailUrl, this.VideoId);
+            var txt = GetSmileVideoHtmlText(url);
+            var xml = XDocument.Load(new StringReader(txt)).Root.Element("thumb");
+
+            Title = xml.Element("title").Value;
+            ViewCounter = long.Parse(xml.Element("view_counter").Value);
+            MylistCounter = long.Parse(xml.Element("mylist_counter").Value);
+            CommentCounter = long.Parse(xml.Element("comment_num").Value);
+            StartTime = DateTime.Parse(xml.Element("first_retrieve").Value);
+            ThumbnailUrl = xml.Element("thumbnail_url").Value;
+            LengthSeconds = Converter.ToLengthSeconds(xml.Element("length").Value);
+            LastResBody = xml.Element("last_res_body").Value;
+
+        }
+
         /// <summary>
         /// ｺﾝﾃﾝﾂId (http://nico.ms/ の後に連結することでコンテンツへのURLになります)
         /// </summary>
@@ -29,6 +63,15 @@ namespace NicoV2.Mvvm.Model
             }
         }
         private string _ContentId = null;
+
+        /// <summary>
+        /// 動画ID
+        /// </summary>
+        public string VideoId
+        {
+            get { return ContentId.Split('/').Last(); }
+        }
+
 
         /// <summary>
         /// ﾀｲﾄﾙ
@@ -139,14 +182,27 @@ namespace NicoV2.Mvvm.Model
             set
             {
                 SetProperty(ref _ThumbnailUrl, value);
-                SetProperty(ref _Thumbnail, new BitmapImage(new Uri(_ThumbnailUrl)));
+
+                // TODO ｻﾑﾈ取得失敗時にﾃﾞﾌｫﾙﾄURLで再取得
+                // TODO ｻﾑﾈ中/大を選択時、取得失敗した場合はﾃﾞﾌｫﾙﾄｻﾑﾈを拡大する
+                HttpUtil.GetThumbnail(_ThumbnailUrl)
+                    .ContinueWith(
+                        t => Thumbnail = t.Result,
+                        TaskScheduler.FromCurrentSynchronizationContext()
+                    );
             }
         }
         private string _ThumbnailUrl = null;
 
+        /// <summary>
+        /// ｻﾑﾈｲﾙ
+        /// </summary>
         public BitmapImage Thumbnail
         {
-            get { return _Thumbnail; }
+            get
+            {
+                return _Thumbnail;
+            }
             set { SetProperty(ref _Thumbnail, value); }
         }
         private BitmapImage _Thumbnail;
@@ -162,7 +218,7 @@ namespace NicoV2.Mvvm.Model
         private string _CommunityIcon = null;
 
         /// <summary>
-        /// 最終ｺﾒﾝﾄ時間
+        /// 最終更新時間
         /// </summary>
         public DateTime LastUpdateTime
         {
@@ -171,5 +227,22 @@ namespace NicoV2.Mvvm.Model
         }
         private DateTime _LastUpdateTime = DateTime.Now;
 
+        /// <summary>
+        /// 最新ｺﾒﾝﾄ
+        /// </summary>
+        public string LastResBody
+        {
+            get { return _LastResBody; }
+            set { SetProperty(ref _LastResBody, value); }
+        }
+        private string _LastResBody = null;
+
+        /// <summary>
+        /// ｺﾝﾃﾝﾂをﾌﾞﾗｳｻﾞ起動する。
+        /// </summary>
+        public void StartBrowser()
+        {
+            Process.Start(Variables.BrowserPath, ContentId);
+        }
     }
 }

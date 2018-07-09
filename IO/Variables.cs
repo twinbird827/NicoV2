@@ -54,5 +54,18 @@ namespace NicoV2.IO
                 Instance["ENCODING"] = value;
             }
         }
+
+        public static string BrowserPath
+        {
+            get
+            {
+                return Instance["BROWSER_PATH", @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"];
+            }
+            private set
+            {
+                Instance["ENCODING"] = value;
+            }
+        }
+
     }
 }

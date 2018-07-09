@@ -22,6 +22,14 @@ namespace NicoV2.Mvvm.Model
                 {
                     // ﾓﾃﾞﾙを設定ﾌｧｲﾙから取得する。取得できなかった場合はﾃﾞﾌｫﾙﾄﾒﾆｭｰとする。
                     _Instance = JsonUtil.Deserialize<MenuModel>(Constants.MenuModelPath) ?? CreateDefault();
+
+                    // ﾏｲﾘｽﾄ更新
+                    var items = _Instance.MenuItems.Where(m => m.Type == MenuItemType.MylistOfMe).First().Items;
+                    items.Clear();
+                    foreach (var item in MylistOfMeModel.Instance.Reload())
+                    {
+                        items.Add(item);
+                    }
                 }
                 return _Instance;
             }
@@ -49,21 +57,19 @@ namespace NicoV2.Mvvm.Model
             };
 
             model.MenuItems = new ObservableSynchronizedCollection<MenuItemModel>();
-            model.MenuItems.Add(new MenuItemModel("TEST1", MenuItemType.SearchByWord));
-            model.MenuItems.Add(new MenuItemModel("TEST2", MenuItemType.Ranking));
-            model.MenuItems.Add(new MenuItemModel("FAV0", MenuItemType.MylistOfOther)
+            model.MenuItems.Add(new MenuItemModel("SearchByWord", MenuItemType.SearchByWord));
+            model.MenuItems.Add(new MenuItemModel("Ranking", MenuItemType.Ranking));
+            model.MenuItems.Add(new MenuItemModel("Temporary", MenuItemType.Temporary));
+            model.MenuItems.Add(new MenuItemModel("MyListOfMe", MenuItemType.MylistOfMe));
+            model.MenuItems.Add(new MenuItemModel("SearchByMylist", MenuItemType.SearchByMylist)
             {
                 Children = new ObservableSynchronizedCollection<MenuItemModel>
                 {
-                    new MenuItemModel("FAV1", MenuItemType.MylistOfOther),
-                    new MenuItemModel("FAV2", MenuItemType.MylistOfOther),
-                    new MenuItemModel("FAV3", MenuItemType.MylistOfOther)
+                    new MenuItemModel("MyListOfOther1", MenuItemType.MylistOfOther),
+                    new MenuItemModel("MyListOfOther2", MenuItemType.MylistOfOther)
                 }
             });
-            model.MenuItems.Add(new MenuItemModel("TEST4", MenuItemType.Temporary));
-            model.MenuItems.Add(new MenuItemModel("TEST5", MenuItemType.SearchByMylist));
-            model.MenuItems.Add(new MenuItemModel("TEST6", MenuItemType.MylistOfMe));
-            model.MenuItems.Add(new MenuItemModel("TEST7", MenuItemType.Setting));
+            model.MenuItems.Add(new MenuItemModel("Setting", MenuItemType.Setting));
 
             model.Parameters.Add("key1", "value1");
             model.Parameters.Add("key2", "value2");

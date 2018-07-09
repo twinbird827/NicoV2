@@ -10,19 +10,17 @@ namespace NicoV2.Mvvm.Service
     {
         public void Error(string message)
         {
-            Console.WriteLine("Error: {0}", message);
+            Console.WriteLine(string.Format("[ERROR][{0:yy/MM/dd HH:mm:ss}]{1}", DateTime.Now, message));
         }
 
         public void Info(string message)
         {
-            Console.WriteLine("Info: {0}", message);
+            Console.WriteLine(string.Format("[INFO][{0:yy/MM/dd HH:mm:ss}]{1}", DateTime.Now, message));
         }
 
         public void Debug(string message)
         {
-            Console.WriteLine("**************************************************");
-            Console.WriteLine(message);
-            Console.WriteLine("**************************************************");
+            Console.WriteLine(string.Format("[DEBUG][{0:yy/MM/dd HH:mm:ss}]{1}", DateTime.Now, message));
         }
     }
 }

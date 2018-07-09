@@ -25,7 +25,7 @@
 
     <!-- 本WindowのViewModel -->
     <Window.DataContext>
-        <vm:MainWindowViewModel x:Name="myVM"/>
+        <vm:MainWindowViewModel />
     </Window.DataContext>
 
     <i:Interaction.Triggers>
@@ -50,6 +50,22 @@
                 <local:SearchByWordPage />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:SearchByMylistViewModel}">
+                <local:SearchByMylistPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:RankingViewModel}">
+                <local:RankingPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:TemporaryViewModel}">
+                <local:TemporaryPage />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:MylistViewModel}">
+                <local:MylistPage />
+            </DataTemplate>
+
         </ResourceDictionary>
 
     </Window.Resources>
@@ -64,60 +80,71 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 
-    <materialDesign:DialogHost Identifier="RootDialog">
+    <materialDesign:DialogHost
+            Identifier="RootDialog"
+            IsOpen="{Binding IsOpenMainDialog}"
+            DialogContent="{Binding MainDialog}">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             
             <!-- ﾒﾆｭｰ構成の領域 -->
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel MinWidth="300">
-                    <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Menu.MenuItems}" Margin="1" Padding="1">
-                        <TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type vm:MenuItemViewModel}" ItemsSource="{Binding Children}">
-                                <ContentControl>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDoubleClick">
-                                            <local:CallMethodAction TargetObject="{Binding}" MethodName="OnItemDoubleClick" />
-                                            <local:CallMethodAction TargetObject="{Binding ElementName=myVM}" MethodName="OnChangeMenuOpend" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="{Binding Name}" VerticalAlignment="Center" />
-                                    </Grid>
-                                </ContentControl>
-                                <!-- ﾒﾆｭｰ要素の定義 -->
-                                <!--
-                                <Button>
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="{Binding Name}" VerticalAlignment="Center" />
-                                    </Grid>
-                                </Button>
-                                -->
-                                <!--
-                                <Border BorderBrush="Silver" BorderThickness="1" Margin="1" Padding="1">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDown">
-                                            <local:CallMethodAction TargetObject="{Binding}" MethodName="Test1" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="{Binding Name}" VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                -->
+                <materialDesign:DialogHost
+                        IsOpen="{Binding IsOpenTreeViewDialog}"
+                        DialogContent="{Binding TreeViewDialog}">
+                    <DockPanel MinWidth="300">
+                        <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ItemsSource="{Binding MenuItems}" Margin="1" Padding="1">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="IsExpanded" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Type}" Value="MylistOfOther">
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Rename" Command="{Binding OnOpenRenameDialog}" />
+                                                        <MenuItem Header="Add Children" Command="{Binding OnOpenAddDialog}" />
+                                                        <MenuItem Header="Remove" Command="{Binding OnDelete}" />
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Type}" Value="SearchByMylist">
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Add Children" Command="{Binding OnOpenAddDialog}" />
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type vm:MenuItemViewModel}" ItemsSource="{Binding Children}">
+                                    <ContentControl>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDoubleClick">
+                                                <local:CallMethodAction TargetObject="{Binding}" MethodName="OnItemDoubleClick" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="{Binding Name}" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ContentControl>
 
-                            </HierarchicalDataTemplate>
-                        </TreeView.Resources>
-                    </TreeView>
-                </DockPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </DockPanel>
+                </materialDesign:DialogHost>
             </materialDesign:DrawerHost.LeftDrawerContent>
 
             <!-- ﾒｲﾝ領域 -->

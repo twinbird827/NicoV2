@@ -4,12 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NicoV2.Mvvm.ViewModel
 {
-    public class SearchByWordItemViewModel : BindableBase
+    public class SearchByWordItemViewModel : WorkSpaceItemViewModel
     {
-        private VideoModel Source { get; set; }
-
+        /// <summary>
+        /// ｺﾝｽﾄﾗｸﾀ
+        /// </summary>
+        /// <param name="m"></param>
+        public SearchByWordItemViewModel(VideoModel m)
+            : base(m)
+        {
+        }
     }
 }

@@ -25,12 +25,19 @@ namespace NicoV2.Mvvm.ViewModel
         public SearchByWordViewModel(SearchByWordModel model)
         {
             Source = model;
-            Items = Source.Items.ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
+            Items = Source.Items.ToSyncedSynchronizationContextCollection(m => new SearchByWordItemViewModel(m), AnonymousSynchronizationContext.Current);
 
-            SortModel = SortModel.Instance;
-            SortItems = SortModel.Items.ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
+            SortItems = ComboSortModel
+                .Instance
+                .Items
+                .ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
             SelectedSortItem = SortItems.First();
 
+            ThumbSizeItems = ComboThumbSizeModel
+                .Instance
+                .Items
+                .ToSyncedSynchronizationContextCollection(m => m, AnonymousSynchronizationContext.Current);
+            SelectedThumbSizeItem = ThumbSizeItems.First();
 
         }
 
@@ -40,44 +47,54 @@ namespace NicoV2.Mvvm.ViewModel
         public SearchByWordModel Source { get; set; }
 
         /// <summary>
-        /// ｿｰﾄ用ﾓﾃﾞﾙ
-        /// </summary>
-        public SortModel SortModel
-        {
-            get { return _SortModel; }
-            set { SetProperty(ref _SortModel, value); }
-        }
-        private SortModel _SortModel;
-
-        /// <summary>
         /// ｿｰﾄﾘｽﾄ
         /// </summary>
-        public SynchronizationContextCollection<SortItemModel> SortItems
+        public SynchronizationContextCollection<ComboBoxItemModel> SortItems
         {
             get { return _SortItems; }
             set { SetProperty(ref _SortItems, value); }
         }
-        private SynchronizationContextCollection<SortItemModel> _SortItems;
+        private SynchronizationContextCollection<ComboBoxItemModel> _SortItems;
 
         /// <summary>
         /// 選択中のｿｰﾄ項目
         /// </summary>
-        public SortItemModel SelectedSortItem
+        public ComboBoxItemModel SelectedSortItem
         {
             get { return _SelectedSortItem; }
             set { SetProperty(ref _SelectedSortItem, value); }
         }
-        private SortItemModel _SelectedSortItem;
+        private ComboBoxItemModel _SelectedSortItem;
 
         /// <summary>
-        /// ｿｰﾄﾘｽﾄ
+        /// 選択中のｻﾑﾈｻｲｽﾞ項目
         /// </summary>
-        public SynchronizationContextCollection<VideoModel> Items
+        public ComboBoxItemModel SelectedThumbSizeItem
+        {
+            get { return _SelectedThumbSizeItem; }
+            set { SetProperty(ref _SelectedThumbSizeItem, value); }
+        }
+        private ComboBoxItemModel _SelectedThumbSizeItem;
+
+        /// <summary>
+        /// ｻﾑﾈｻｲｽﾞﾘｽﾄ
+        /// </summary>
+        public SynchronizationContextCollection<ComboBoxItemModel> ThumbSizeItems
+        {
+            get { return _ThumbSizeItems; }
+            set { SetProperty(ref _ThumbSizeItems, value); }
+        }
+        private SynchronizationContextCollection<ComboBoxItemModel> _ThumbSizeItems;
+
+        /// <summary>
+        /// ﾒｲﾝ項目ﾘｽﾄ
+        /// </summary>
+        public SynchronizationContextCollection<SearchByWordItemViewModel> Items
         {
             get { return _Items; }
             set { SetProperty(ref _Items, value); }
         }
-        private SynchronizationContextCollection<VideoModel> _Items;
+        private SynchronizationContextCollection<SearchByWordItemViewModel> _Items;
 
         /// <summary>
         /// 検索ﾜｰﾄﾞ
@@ -129,11 +146,14 @@ namespace NicoV2.Mvvm.ViewModel
         }
         private double _DataLength = 0;
 
-        public ICommand SearchCommand
+        /// <summary>
+        /// 検索処理
+        /// </summary>
+        public ICommand OnSearch
         {
             get
             {
-                return _SearchCommand = _SearchCommand ?? new RelayCommand<bool>(
+                return _OnSearch = _OnSearch ?? new RelayCommand<bool>(
               b =>
               {
                   // 現在位置をﾘｾｯﾄ
@@ -143,7 +163,8 @@ namespace NicoV2.Mvvm.ViewModel
                   Source.Word = this.Word;
                   Source.Offset = 0;
                   Source.IsTag = this.IsTag;
-                  Source.OrderBy = this.SelectedSortItem.Keyword;
+                  Source.OrderBy = this.SelectedSortItem.Value;
+                  Source.ThumbSize = this.SelectedThumbSizeItem.Value;
 
                   // 検索実行
                   this.Source.Reload();
@@ -158,13 +179,41 @@ namespace NicoV2.Mvvm.ViewModel
               });
             }
         }
-        public ICommand _SearchCommand;
+        public ICommand _OnSearch;
 
-        public ICommand CurrentChangedCommand
+        /// <summary>
+        /// 検索処理(ﾃｷｽﾄﾎﾞｯｸｽでENTER時)
+        /// </summary>
+        public ICommand OnSearchByEnter
         {
             get
             {
-                return _CurrentChangedCommand = _CurrentChangedCommand ?? new RelayCommand(
+                return _OnSearchByEnter = _OnSearchByEnter ?? new RelayCommand<string>(
+              s =>
+              {
+                  // 入力値をﾌﾟﾛﾊﾟﾃｨにｾｯﾄ
+                  this.Word = s;
+
+                  if (OnSearch.CanExecute(this.IsTag))
+                  {
+                      OnSearch.Execute(this.IsTag);
+                  }
+              },
+              s => {
+                  return !string.IsNullOrWhiteSpace(s);
+              });
+            }
+        }
+        public ICommand _OnSearchByEnter;
+
+        /// <summary>
+        /// ﾍﾟｰｼﾞｬ変更処理
+        /// </summary>
+        public ICommand OnCurrentChanged
+        {
+            get
+            {
+                return _OnCurrentChanged = _OnCurrentChanged ?? new RelayCommand(
               _ =>
               {
                   if (Source.Offset != this.Offset)
@@ -181,7 +230,7 @@ namespace NicoV2.Mvvm.ViewModel
               });
             }
         }
-        public ICommand _CurrentChangedCommand;
+        public ICommand _OnCurrentChanged;
 
     }
 }

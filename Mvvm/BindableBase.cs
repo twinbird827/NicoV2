@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NicoV2.Mvvm
 {
+    [DataContract]
     public class BindableBase : INotifyPropertyChanged, IDisposable
     {
         /// <summary>
@@ -51,6 +53,10 @@ namespace NicoV2.Mvvm
             }
         }
 
+        protected virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // 重複する呼び出しを検出するには
 
@@ -65,6 +71,7 @@ namespace NicoV2.Mvvm
                 if (disposing)
                 {
                     var disposables = this.GetType().GetProperties()
+                        .Where(p => Attribute.GetCustomAttribute(p, typeof(ExclusionAttribute)) == null)
                         .Select(p => p.GetValue(this, null))
                         .Where(o => o != null && !this.Equals(o))
                         .OfType<BindableBase>()

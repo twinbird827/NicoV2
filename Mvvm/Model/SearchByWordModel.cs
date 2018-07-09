@@ -80,6 +80,16 @@ namespace NicoV2.Mvvm.Model
         private double _DataLength = 0;
 
         /// <summary>
+        /// ｿｰﾄ順
+        /// </summary>
+        public string ThumbSize
+        {
+            get { return _ThumbSize; }
+            set { SetProperty(ref _ThumbSize, value); }
+        }
+        private string _ThumbSize = null;
+
+        /// <summary>
         /// ｱｲﾃﾑ構成
         /// </summary>
         public ObservableSynchronizedCollection<VideoModel> Items
@@ -131,7 +141,7 @@ namespace NicoV2.Mvvm.Model
                     StartTime = Converter.ToDatetime(data["startTime"]),
                     LastCommentTime = Converter.ToDatetime(data["lastCommentTime"]),
                     LengthSeconds = data["lengthSeconds"],
-                    ThumbnailUrl = data["thumbnailUrl"],
+                    ThumbnailUrl = data["thumbnailUrl"] + ThumbSize,
                     //CommunityIcon = data["communityIcon"]
                 });
             }
@@ -143,6 +153,8 @@ namespace NicoV2.Mvvm.Model
 
         private bool IsError(string txt)
         {
+            // TODO チェック内容の精査＋共通化
+
             if (string.IsNullOrWhiteSpace(txt))
             {
                 ServiceFactory.MessageService.Error("何らかの通信エラーです。");

@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace NicoV2.Mvvm.Model
 {
-    public class SortItemModel : BindableBase
+    public class ComboBoxItemModel : BindableBase
     {
         /// <summary>
-        /// Urlﾊﾟﾗﾒｰﾀに渡すｷｰﾜｰﾄﾞ
+        /// 実際の値
         /// </summary>
-        public string Keyword
+        public string Value
         {
-            get { return _Keyword; }
-            set { SetProperty(ref _Keyword, value); }
+            get { return _Value; }
+            set { SetProperty(ref _Value, value); }
         }
-        private string _Keyword = null;
+        private string _Value = null;
 
         /// <summary>
-        /// ｷｰﾜｰﾄﾞの説明
+        /// 画面に表示する説明
         /// </summary>
         public string Description
         {

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NicoV2.Mvvm.Model
@@ -46,6 +47,31 @@ namespace NicoV2.Mvvm.Model
             set { SetProperty(ref _IsPremium, value); }
         }
         private bool _IsPremium = false;
+
+        /// <summary>
+        /// ﾌﾟﾚﾐｱﾑかどうか
+        /// </summary>
+        public string Token
+        {
+            get
+            {
+                if (LastTokenGetDate.AddMinutes(10).Ticks < DateTime.Now.Ticks)
+                {
+                    // 10分経過毎にﾄｰｸﾝを更新する。
+                    _Token = GetToken();
+                    //LastTokenGetDate = DateTime.Now;
+                }
+                return _Token;
+            }
+        }
+        private string _Token = default(string);
+
+        public DateTime LastTokenGetDate
+        {
+            get { return _LastTokenGetDate; }
+            set { SetProperty(ref _LastTokenGetDate, value); }
+        }
+        private DateTime _LastTokenGetDate = default(DateTime);
 
         /// <summary>
         /// ｸｯｷｰｺﾝﾃﾅ
@@ -215,5 +241,10 @@ namespace NicoV2.Mvvm.Model
             Cookie = new CookieContainer();
         }
 
+        private string GetToken()
+        {
+            var txt = GetSmileVideoHtmlText(Constants.TokenUrl);
+            return Regex.Match(txt, "data-csrf-token=\"(?<token>[^\"]+)\"").Groups["token"].Value;
+        }
     }
 }

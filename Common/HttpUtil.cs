@@ -5,9 +5,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace NicoV2.Common
 {
@@ -118,6 +121,12 @@ namespace NicoV2.Common
             }
         }
 
+        /// <summary>
+        /// ﾛｸﾞｲﾝﾊﾟﾗﾒｰﾀに変換します。
+        /// </summary>
+        /// <param name="mailaddress">ﾒｰﾙｱﾄﾞﾚｽ</param>
+        /// <param name="password">ﾊﾟｽﾜｰﾄﾞ</param>
+        /// <returns></returns>
         public static string ToLoginParameter(string mailaddress, string password)
         {
             return string.Format(
@@ -126,5 +135,64 @@ namespace NicoV2.Common
                 ToUrlEncode(password)
             );
         }
+
+        /// <summary>
+        /// 指定したUrlからｲﾒｰｼﾞをﾊﾞｲﾄ配列として取得します。
+        /// </summary>
+        /// <param name="url">Url</param>
+        /// <returns></returns>
+        public static async Task<byte[]> DownLoadImageBytesAsync(string url)
+        {
+            using (var web = new HttpClient())
+            {
+                return await web.GetByteArrayAsync(url);
+            }
+        }
+
+        /// <summary>
+        /// 指定したﾊﾞｲﾄ配列からﾋﾞｯﾄﾏｯﾌﾟｲﾒｰｼﾞを作成します。
+        /// </summary>
+        /// <param name="bytes">ﾊﾞｲﾄ配列</param>
+        /// <param name="freezing">Freezeするかどうか</param>
+        /// <returns></returns>
+        public static BitmapImage CreateBitmap(byte[] bytes, bool freezing = true)
+        {
+            using (var stream = new WrappingStream(new MemoryStream(bytes)))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = stream;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                if (freezing && bitmap.CanFreeze)
+                {
+                    bitmap.Freeze();
+                }
+                return bitmap;
+            }
+        }
+
+        /// <summary>
+        /// 指定したﾃﾞｨｽﾊﾟｯﾁｬで、指定したUrlからｲﾒｰｼﾞを取得する非同期ﾀｽｸを取得します。
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="dispatcher"></param>
+        /// <returns></returns>
+        public static async Task<BitmapImage> DownloadImageAsync(string url, Dispatcher dispatcher)
+        {
+            var bytes = await DownLoadImageBytesAsync(url).ConfigureAwait(false);
+            return await dispatcher.InvokeAsync(() => CreateBitmap(bytes));
+        }
+
+        /// <summary>
+        /// 指定したUrlのｻﾑﾈｲﾙを取得する
+        /// </summary>
+        /// <param name="url">Url</param>
+        /// <returns>ｻﾑﾈｲﾙ画像</returns>
+        public static async Task<BitmapImage> GetThumbnail(string url)
+        {
+            return await DownloadImageAsync(url, App.Current.Dispatcher);
+        }
+
     }
 }

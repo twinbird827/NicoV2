@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NicoV2.Mvvm.Model
 {
+    [DataContract]
     public class HttpModel : BindableBase
     {
         /// <summary>
@@ -44,7 +46,7 @@ namespace NicoV2.Mvvm.Model
             req.CookieContainer.Add(
                 GetCookies(LoginModel.Instance.Cookie, req.RequestUri)
             );
-            
+
             if (!string.IsNullOrWhiteSpace(parameter))
             {
                 // ﾊﾟﾗﾒｰﾀが存在する場合、ｽﾄﾘｰﾑにﾊﾟﾗﾒｰﾀを追記する。
@@ -114,18 +116,27 @@ namespace NicoV2.Mvvm.Model
             LoginModel.Instance.Login();
 
             var req = GetRequest(url);                  // ﾘｸｴｽﾄ作成
-            var res = GetResponse(req);                 // ﾚｽﾎﾟﾝｽ取得
-            var txt = HttpUtil.GetResponseString(res);  // ﾚｽﾎﾟﾝｽからHttpText取得
+            using (var res = GetResponse(req))
+            {
+                // ﾚｽﾎﾟﾝｽ取得
+                var txt = HttpUtil.GetResponseString(res);  // ﾚｽﾎﾟﾝｽからHttpText取得
 
-            // 制御文字を除外する
-            //var excludes = Enumerable.Range(0, 31).Where(i => i != 10);
-            //Array.ForEach(excludes.ToArray(), i => txt = txt.Replace(((char)i).ToString(), ""));
-            Enumerable
-                .Range(0, 31)
-                .Where(i => i != 10)
-                .ToList()
-                .ForEach(i => txt = txt.Replace(((char)i).ToString(), ""));
-            return txt;
+                // 制御文字を除外する
+                Enumerable
+                    .Range(0, 31)
+                    .Where(i => i != 10)
+                    .ToList()
+                    .ForEach(i => txt = txt.Replace(((char)i).ToString(), ""));
+
+                // 宣言されていないエンティティを除外する
+                txt = txt.Replace("&copy;", "");
+                txt = txt.Replace("&nbsp;", " ");
+                txt = txt.Replace("&#x20;", " ");
+
+                txt = txt.Replace("&", "&amp;");
+
+                return txt;
+            }
         }
 
     }

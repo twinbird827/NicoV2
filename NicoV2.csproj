@@ -75,7 +75,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Mvvm\View\MainWindowAddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\MainWindowRenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\MylistPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Mvvm\View\PagingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\RankingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\SearchByMylistAddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\SearchByMylistPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -84,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Mvvm\View\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mvvm\View\TemporaryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,39 +137,84 @@
     <Compile Include="IO\Constants.cs" />
     <Compile Include="IO\Ini.cs" />
     <Compile Include="IO\Variables.cs" />
+    <Compile Include="IO\WrappingStream.cs" />
     <Compile Include="Mvvm\BindableBase.cs" />
+    <Compile Include="Mvvm\ExclusionAttribute.cs" />
+    <Compile Include="Mvvm\Model\ComboBoxItemModel.cs" />
+    <Compile Include="Mvvm\Model\ComboRankCategoryModel.cs" />
+    <Compile Include="Mvvm\Model\ComboRankPeriodModel.cs" />
+    <Compile Include="Mvvm\Model\ComboRankTargetModel.cs" />
+    <Compile Include="Mvvm\Model\ComboSortMylistModel.cs" />
+    <Compile Include="Mvvm\Model\ComboThumbSizeModel.cs" />
     <Compile Include="Mvvm\Model\HttpModel.cs" />
     <Compile Include="Mvvm\Model\LoginModel.cs" />
     <Compile Include="Mvvm\Model\MenuItemModel.cs" />
     <Compile Include="Mvvm\Model\MenuItemType.cs" />
     <Compile Include="Mvvm\Model\MenuModel.cs" />
+    <Compile Include="Mvvm\Model\MylistModel.cs" />
+    <Compile Include="Mvvm\Model\MylistOfMeModel.cs" />
     <Compile Include="Mvvm\Model\RankingModel.cs" />
+    <Compile Include="Mvvm\Model\SearchByMylistModel.cs" />
     <Compile Include="Mvvm\Model\SearchByWordModel.cs" />
-    <Compile Include="Mvvm\Model\SortItemModel.cs" />
-    <Compile Include="Mvvm\Model\SortModel.cs" />
+    <Compile Include="Mvvm\Model\ComboSortModel.cs" />
+    <Compile Include="Mvvm\Model\TemporaryModel.cs" />
     <Compile Include="Mvvm\Model\VideoModel.cs" />
+    <Compile Include="Mvvm\Model\VideoStatusItemModel.cs" />
+    <Compile Include="Mvvm\Model\VideoStatusModel.cs" />
     <Compile Include="Mvvm\Service\ConsoleMessageService.cs" />
     <Compile Include="Mvvm\Service\IMessageService.cs" />
     <Compile Include="Mvvm\Service\ServiceFactory.cs" />
     <Compile Include="Mvvm\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\MenuItemViewModel.cs" />
-    <Compile Include="Mvvm\ViewModel\MenuViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\MylistItemViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\MylistViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\RankingItemViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\RankingViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\RelayCommand.cs" />
+    <Compile Include="Mvvm\ViewModel\SearchByMylistItemViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\SearchByMylistViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SearchByWordItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SearchByWordViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\SettingViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\TemporaryItemViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\TemporaryViewModel.cs" />
+    <Compile Include="Mvvm\ViewModel\WorkSpaceItemViewModel.cs" />
     <Compile Include="Mvvm\ViewModel\WorkSpaceViewModel.cs" />
     <Compile Include="Mvvm\View\CallMethodAction.cs" />
+    <Compile Include="Mvvm\View\DoubleClickBehaivor.cs" />
+    <Compile Include="Mvvm\View\KeyDownBehaivor.cs" />
+    <Compile Include="Mvvm\View\ListViewEx.cs" />
     <Compile Include="Mvvm\View\LongToHMSConverter.cs" />
+    <Compile Include="Mvvm\View\MainWindowAddDialog.xaml.cs">
+      <DependentUpon>MainWindowAddDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\MainWindowRenameDialog.xaml.cs">
+      <DependentUpon>MainWindowRenameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\MylistPage.xaml.cs">
+      <DependentUpon>MylistPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mvvm\View\PagingUserControl.xaml.cs">
       <DependentUpon>PagingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\View\PasswordBoxHelper.cs" />
+    <Compile Include="Mvvm\View\RankingPage.xaml.cs">
+      <DependentUpon>RankingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\SearchByMylistAddDialog.xaml.cs">
+      <DependentUpon>SearchByMylistAddDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\SearchByMylistPage.xaml.cs">
+      <DependentUpon>SearchByMylistPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mvvm\View\SearchByWordPage.xaml.cs">
       <DependentUpon>SearchByWordPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\View\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mvvm\View\TemporaryPage.xaml.cs">
+      <DependentUpon>TemporaryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mvvm\View\WebBrowserBehaviors.cs" />
     <Compile Include="Nuget\DynamicJson.cs" />

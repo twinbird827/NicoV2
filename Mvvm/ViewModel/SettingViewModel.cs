@@ -12,58 +12,14 @@ namespace NicoV2.Mvvm.ViewModel
 {
     public class SettingViewModel : WorkSpaceViewModel
     {
+        /// <summary>
+        /// ﾛｸﾞｲﾝｿｰｽ
+        /// </summary>
         private LoginModel LoginSource { get; set; }
 
-        public string MailAddress
-        {
-            get { return _MailAddress; }
-            set { SetProperty(ref _MailAddress, value); }
-        }
-        private string _MailAddress;
-
-        public string Password
-        {
-            get { return _Password; }
-            set { SetProperty(ref _Password, value); }
-        }
-        private string _Password;
-
-        public ICommand LoginCommand
-        {
-            get { return _LoginCommand = _LoginCommand ?? new RelayCommand(
-                _ =>
-                {
-                    // ﾛｸﾞｲﾝ実行
-                    this.LoginSource.Login(MailAddress, Password);
-                    ServiceFactory.MessageService.Info(this.LoginSource.IsLogin.ToString());
-                    //Console.WriteLine("mail: {0}, pass: {1}", MailAddress, Password);
-                    //Variables.MailAddress = MailAddress;
-                    //Variables.Password = Password;
-                },
-                _ => {
-                    return
-                        !string.IsNullOrWhiteSpace(MailAddress) &&
-                        !string.IsNullOrWhiteSpace(Password);
-                });
-            }
-        }
-        public ICommand _LoginCommand;
-
-        public ICommand TestCommand
-        {
-            get
-            {
-                return _TestCommand = _TestCommand ?? new RelayCommand(
-              _ =>
-              {
-                    // ﾛｸﾞｲﾝ実行
-                    Console.WriteLine("{0}", "test");
-                }
-              );
-            }
-        }
-        public ICommand _TestCommand;
-
+        /// <summary>
+        /// ｺﾝｽﾄﾗｸﾀ
+        /// </summary>
         public SettingViewModel()
         {
             // ﾛｸﾞｲﾝﾓﾃﾞﾙを取得
@@ -77,9 +33,46 @@ namespace NicoV2.Mvvm.ViewModel
             Password = string.IsNullOrEmpty(Password) ? null : Password;
         }
 
-        public void Test1()
+        /// <summary>
+        /// ﾒｰﾙｱﾄﾞﾚｽ
+        /// </summary>
+        public string MailAddress
         {
-            Console.WriteLine("{0}", "test");
+            get { return _MailAddress; }
+            set { SetProperty(ref _MailAddress, value); }
         }
+        private string _MailAddress;
+
+        /// <summary>
+        /// ﾊﾟｽﾜｰﾄﾞ
+        /// </summary>
+        public string Password
+        {
+            get { return _Password; }
+            set { SetProperty(ref _Password, value); }
+        }
+        private string _Password;
+
+        /// <summary>
+        /// ﾛｸﾞｲﾝ処理
+        /// </summary>
+        public ICommand OnLogin
+        {
+            get { return _OnLogin = _OnLogin ?? new RelayCommand(
+                _ =>
+                {
+                    // ﾛｸﾞｲﾝ実行
+                    this.LoginSource.Login(MailAddress, Password);
+                    ServiceFactory.MessageService.Debug(this.LoginSource.IsLogin.ToString());
+                },
+                _ => {
+                    return
+                        !string.IsNullOrWhiteSpace(MailAddress) &&
+                        !string.IsNullOrWhiteSpace(Password);
+                });
+            }
+        }
+        public ICommand _OnLogin;
+
     }
 }

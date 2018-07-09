@@ -19,5 +19,27 @@ namespace NicoV2.Common
                 return DateTime.Parse(value);
             }
         }
+
+        public static long ToLengthSeconds(string value)
+        {
+            var lengthSecondsIndex = 0;
+            var lengthSeconds = value
+                    .Split(':')
+                    .Select(s => long.Parse(s))
+                    .Reverse()
+                    .Select(l => l * (60 ^ lengthSecondsIndex++))
+                    .Sum();
+            return lengthSeconds;
+        }
+
+        public static long ToLong(string value)
+        {
+            return long.Parse(value.Replace(",", ""));
+        }
+
+        public static DateTime FromUnixTime(long time)
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(time).LocalDateTime;
+        }
     }
 }
